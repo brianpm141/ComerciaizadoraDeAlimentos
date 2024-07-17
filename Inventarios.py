@@ -9,10 +9,17 @@ class Producto:
         self.categoria = categoria
         self.peso = peso
         self.stock = stock
+        self.status = 1
 
     def imprimir_producto(self):
-        print (f"ID: {self.id}, Nombre: {self.nombre}, Precio: {self.precio}, "
-                f"Categoría: {self.categoria}, Peso: {self.peso}kg, Stock: {self.stock}")
+        if self.status == 1:
+            print (f"ID: {self.id}, Nombre: {self.nombre}, Precio: {self.precio}, "
+                    f"Categoría: {self.categoria}, Peso: {self.peso}kg, Stock: {self.stock}")
+
+    def implrimir_producto_eliminado(self):
+        if self.status == 0:
+            print (f"ID: {self.id}, Nombre: {self.nombre}, Precio: {self.precio}, "
+                    f"Categoría: {self.categoria}, Peso: {self.peso}kg, Stock: {self.stock}")
 
     def modificar_producto(self):
         print("------------Datos del producto------------")
@@ -43,6 +50,9 @@ class Producto:
             self.stock = int(stock)
 
         print("Producto Modificado")
+
+    def eliminar_producto(self):
+        self.status = 0
 
 
 def registrar_producto():
@@ -82,7 +92,7 @@ def imprimir_productos():
 def eliminar_producto(id):
     for producto in lista_Productos:
         if producto.id == id:
-            lista_Productos.remove(producto)
+            producto.eliminar_producto()
             return True
     return False
 
