@@ -32,16 +32,16 @@ def main():
                     print("Saliendo...")
                     break
                 elif op == 1:
-                    print("ventas")
+                    print("Trabajando en eso")
                 elif op == 2:
                     inv.menu_inventarios()
                 elif op == 3:
-                    print("Reportes")
+                    print("Trabajando en eso")
                 elif op == 4:
-                    print("usuarios")
+                    print("Trabajando en eso")
                 elif op == 5:
                     aut = False
-                    main()  # Llama a la función main de nuevo
+                    main()
 
 
 # Llamar a la función main para iniciar el programa
