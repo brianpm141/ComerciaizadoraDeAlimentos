@@ -1,27 +1,27 @@
-class usuario:
-    def __init__(self,id , nombreus, cont, nivel):
-        self.id = id
-        self.nombreus = nombreus
-        self.cont = cont
-        self.nivel = nivel
+from Personas import Persona
 
-    def get_usuario(self):
-        return self.nombreus
+class Usuario(Persona):
+    def __init__(self,id, nombre, apaterno, amaterno, telefono, usuario, psw, nivel):
+        self.usuario = usuario
+        self.psw = psw
+        self.nivel = int(nivel)
+        super().__init__(id, nombre, apaterno, amaterno, telefono)
 
-    def get_cont(self):
-        return self.cont
+    def getusuario(self):
+        return self.usuario
 
-x = usuario(1,'admin', 'admin', 3)
-y = usuario(2,'gerente', '12345', 2)
-z = usuario(3,'vendedor', '12345', 1)
-lista_usuarios = [x,y,z]
+    def getpsw(self):
+        return self.psw
 
+    def getnivel(self):
+        return self.nivel
 
-def buscar_usuario(nombre):
-    for usu in lista_usuarios:
-        if usu.get_usuario() == nombre:
-            cont = usu.get_cont()
-            return cont
+    def setusuario(self):
+        self.usuario = self.usuario
 
+    def setpsw(self):
+        self.psw = self.psw
 
-print(buscar_usuario('jefe'))
+    def setnivel(self):
+        self.nivel = self.nivel
+
