@@ -4,7 +4,7 @@ from tkinter import ttk
 from Clases import Productos as pr
 
 
-def formulario_productos(actualizar_lista_callback):
+def formulario_productos(id_usuario,actualizar_lista_callback):
     tipo_dict = {
         "Perros": 1,
         "Gatos": 2,
@@ -39,7 +39,7 @@ def formulario_productos(actualizar_lista_callback):
         elif not tipo:
             messagebox.showerror("Error", "¡Seleccione el tipo de aliento que es!")
         else:
-            pr.crear_Producto(nombre, tipo, peso, precio, cantidad)
+            pr.crear_Producto(id_usuario,nombre, tipo, peso, precio, cantidad)
             actualizar_lista_callback()  # Llama a la función de actualización
             root.destroy()
 
@@ -84,13 +84,14 @@ def actualizar_lista(lista_productos):
         lista_productos.insert(tk.END, "No existe ningún producto registrado")
     else:
         for producto in pr.lista_produtos:
-            lista_productos.insert(tk.END, str(producto))
+            if producto.getstatus() == 1:
+                lista_productos.insert(tk.END, str(producto))
 
-def eliminar_prod(actualizar_lista_wrapper):
+def eliminar_prod(id_usuario,actualizar_lista_wrapper):
     def confirmar():
         try:
             valor = int(entry.get())
-            estado = pr.eliminar_producto(valor)
+            estado = pr.eliminar_producto(id_usuario,valor)
             if estado:
                 messagebox.showinfo("Eliminado", "El producto fue eliminado exitosamente")
                 actualizar_lista_wrapper()
@@ -121,7 +122,7 @@ def eliminar_prod(actualizar_lista_wrapper):
     cancelar_button = tk.Button(button_frame, text="Cancelar", command=cancelar)
     cancelar_button.grid(row=0, column=1, padx=10)
 
-def modificar_producto(actualizar_lista_wrapper):
+def modificar_producto(id_usuario,actualizar_lista_wrapper):
     def form_modific(prod):
         tipo_dict = {
             "Perros": 1,
@@ -157,7 +158,7 @@ def modificar_producto(actualizar_lista_wrapper):
             elif not tipo:
                 messagebox.showerror("Error", "¡Seleccione el tipo de aliento que es!")
             else:
-                prod.modificar_valores(nombre, tipo, peso, precio, cantidad)
+                prod.modificar_valores(id_usuario,nombre, tipo, peso, precio, cantidad)
                 messagebox.showinfo("Modificado", "El producto fue modificado exitosamente")
                 actualizar_lista_wrapper()
                 root.destroy()
@@ -241,15 +242,15 @@ def main(nivel,id):
     frame_izquierdo = tk.Frame(ventana)
     frame_izquierdo.pack(side=tk.LEFT, padx=10, pady=10)
 
-    boton_nuevo_producto = tk.Button(frame_izquierdo, text="Nuevo Producto", command=lambda: formulario_productos(actualizar_lista_wrapper))
+    boton_nuevo_producto = tk.Button(frame_izquierdo, text="Nuevo Producto", command=lambda: formulario_productos(id,actualizar_lista_wrapper))
     boton_nuevo_producto.pack(pady=5)
 
     if nivel >= 2:
-        boton_menu_principal = tk.Button(frame_izquierdo, text="Editar Producto", command=lambda: modificar_producto(actualizar_lista_wrapper))
+        boton_menu_principal = tk.Button(frame_izquierdo, text="Editar Producto", command=lambda: modificar_producto(id,actualizar_lista_wrapper))
         boton_menu_principal.pack(pady=5)
 
         boton_menu_principal = tk.Button(frame_izquierdo, text="Eliminar Producto",
-                                         command=lambda: eliminar_prod(actualizar_lista_wrapper))
+                                         command=lambda: eliminar_prod(id,actualizar_lista_wrapper))
         boton_menu_principal.pack(pady=5)
 
     boton_menu_principal = tk.Button(frame_izquierdo, text="Regresar al Menú Principal",

@@ -57,20 +57,20 @@ class Producto:
     def setstatus(self, status):
         self.status = status
 
-    def modificar_valores(self,nombre, tipo, peso, precio, cantidad):
+    def modificar_valores(self,id_usuario,nombre, tipo, peso, precio, cantidad):
         self.nombre = nombre
         self.tipo = tipo
         self.peso = int(peso)
         self.precio = int(precio)
         self.cantidad = int(cantidad)
 
-        reg.crearRegistro(1, 3, self.id)
+        reg.crearRegistro(id_usuario, "Modificar Producto", self.id)
 
 
 def cargar_desde_csv():
     lista_productos = []
     try:
-        with open('Archivos/productos.csv', mode='r') as file:
+        with open('./Archivos/productos.csv', mode='r') as file:
             reader = csv.reader(file)
             next(reader)
             for row in reader:
@@ -80,7 +80,7 @@ def cargar_desde_csv():
                     producto.setstatus(int(status))
                     lista_productos.append(producto)
     except FileNotFoundError:
-        print(f"El archivo {'Archivos/productos.csv'} no se encuentra.")
+        print(f"El archivo {'./Archivos/productos.csv'} no se encuentra.")
     except Exception as e:
         print(f"Se produjo un error al leer el archivo: {e}")
     return lista_productos
@@ -93,19 +93,19 @@ def is_empty():
         if prod.getstatus() == 1: return False
     return True
 
-def crear_Producto(nombre, tipo, peso, precio, cantidad):
+def crear_Producto(id_usuario,nombre, tipo, peso, precio, cantidad):
     id = len(lista_produtos) + 1
     aux = Producto(id, nombre, tipo, peso, precio, cantidad)
     lista_produtos.append(aux)
     guardar_en_csv(lista_produtos)
-    reg.crearRegistro(1,1,id)
+    reg.crearRegistro(id_usuario,"Crear Producto",id)
 
-def eliminar_producto(id):
+def eliminar_producto(id_usuario,id):
     for product in lista_produtos:
         if product.getid() == id:
             product.setstatus(0)
             guardar_en_csv(lista_produtos)
-            reg.crearRegistro(1, 2, id)
+            reg.crearRegistro(id_usuario, "Eliminar Producto", id)
             return True
     return False
 
@@ -116,7 +116,7 @@ def buscar_producto(id):
     return None
 
 def guardar_en_csv(lista_productos):
-    with open('Archivos/productos.csv', mode='w', newline='') as file:
+    with open('./Archivos/productos.csv', mode='w', newline='') as file:
         writer = csv.writer(file)
         # Escribir la cabecera del CSV
         writer.writerow(["ID", "Nombre", "Tipo", "Peso", "Precio", "Cantidad", "Status"])
