@@ -55,6 +55,13 @@ class Producto:
     def setstatus(self, status):
         self.status = status
 
+    def modificar_valores(self,nombre, tipo, peso, precio, cantidad):
+        self.nombre = nombre
+        self.tipo = tipo
+        self.peso = peso
+        self.precio = precio
+        self.cantidad = cantidad
+
 
 x = Producto(1,"test","perro",45,159,200 )
 lista_produtos = [x]
@@ -69,6 +76,20 @@ def crear_Producto(nombre, tipo, peso, precio, cantidad):
     id = len(lista_produtos) + 1
     aux = Producto(id, nombre, tipo, peso, precio, cantidad)
     lista_produtos.append(aux)
+
+def eliminar_producto(id):
+    for product in lista_produtos:
+        if product.getid() == id:
+            product.setstatus(0)
+            return True
+    return False
+
+def buscar_producto(id):
+    for product in lista_produtos:
+        if product.getid() == id:
+            return product
+    return None
+
 
 
 
