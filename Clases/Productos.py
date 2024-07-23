@@ -1,3 +1,4 @@
+import ComerciaizadoraDeAlimentos.Clases.Registros as reg
 import csv
 
 
@@ -59,9 +60,11 @@ class Producto:
     def modificar_valores(self,nombre, tipo, peso, precio, cantidad):
         self.nombre = nombre
         self.tipo = tipo
-        self.peso = peso
-        self.precio = precio
-        self.cantidad = cantidad
+        self.peso = int(peso)
+        self.precio = int(precio)
+        self.cantidad = int(cantidad)
+
+        reg.crearRegistro(1, 3, self.id)
 
 
 def cargar_desde_csv():
@@ -95,14 +98,15 @@ def crear_Producto(nombre, tipo, peso, precio, cantidad):
     aux = Producto(id, nombre, tipo, peso, precio, cantidad)
     lista_produtos.append(aux)
     guardar_en_csv(lista_produtos)
+    reg.crearRegistro(1,1,id)
 
 def eliminar_producto(id):
     for product in lista_produtos:
         if product.getid() == id:
             product.setstatus(0)
             guardar_en_csv(lista_produtos)
+            reg.crearRegistro(1, 2, id)
             return True
-    guardar_en_csv(lista_produtos)
     return False
 
 def buscar_producto(id):
