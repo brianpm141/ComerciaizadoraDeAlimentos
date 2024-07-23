@@ -1,80 +1,40 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import simpledialog
 from tkinter import messagebox
-import Productos as pr
 
 
-
-tipo_dict = {
-    "Perros": 1,
-    "Gatos": 2,
-    "Canarios": 3
-}
-
-def salir():
-    root.destroy()
-
-
-# Función para completar el formulario
-def completar():
-    nombre = entry_nombre.get()
-    tipo = combo_tipo.get()
-    peso = entry_peso.get()
-    precio = entry_precio.get()
-    cantidad = entry_cantidad.get()
-
-    def es_entero(valor):
+def solicitar_numero():
+    def confirmar():
         try:
-            int(valor)
-            return True
+            valor = int(entry.get())
+            messagebox.showinfo("Éxito", f"Número introducido: {valor}")
+            dialog.destroy()
         except ValueError:
-            return False
+            messagebox.showerror("Error", "Por favor, introduce un número válido.")
 
-    if not nombre or not tipo or not peso or not precio or not cantidad:
-        messagebox.showerror("Error", "¡Introduce todos los campos!")
-    elif not es_entero(peso):
-        messagebox.showerror("Error", "¡Introduce un numero en peso!")
-    elif not es_entero(precio):
-        messagebox.showerror("Error", "¡Introduce un numero en precio!")
-    elif not es_entero(cantidad):
-        messagebox.showerror("Error", "¡Introduce un numero en cantidad!")
-    else:
-        pr.crear_Producto(nombre,tipo,peso,precio,cantidad)
-        messagebox.showinfo("Datos ingresados",
-                        f"Nombre: {nombre}\nTipo: {tipo}\nPeso: {peso}\nPrecio: {precio}\nCantidad: {cantidad}")
-        root.destroy()
+    def cancelar():
+        dialog.destroy()
 
-# Crear la ventana principal
-root = tk.Tk()
-root.title("Formulario de Productos")
+    dialog = tk.Tk()
+    dialog.title("Introduce un número")
 
-# Crear y ubicar los elementos del formulario
-tk.Label(root, text="Nombre:").grid(row=0, column=0, padx=10, pady=5)
-entry_nombre = tk.Entry(root)
-entry_nombre.grid(row=0, column=1, padx=10, pady=5)
+    label = tk.Label(dialog, text="Por favor, introduce el id a modificar:")
+    label.pack(padx=20, pady=10)
 
-tk.Label(root, text="Tipo:").grid(row=1, column=0, padx=10, pady=5)
-combo_tipo = ttk.Combobox(root, values=list(tipo_dict.keys()))
-combo_tipo.grid(row=1, column=1, padx=10, pady=5)
+    entry = tk.Entry(dialog)
+    entry.pack(padx=20, pady=10)
 
-tk.Label(root, text="Peso:").grid(row=2, column=0, padx=10, pady=5)
-entry_peso = tk.Entry(root)
-entry_peso.grid(row=2, column=1, padx=10, pady=5)
+    button_frame = tk.Frame(dialog)
+    button_frame.pack(padx=20, pady=10)
 
-tk.Label(root, text="Precio:").grid(row=3, column=0, padx=10, pady=5)
-entry_precio = tk.Entry(root)
-entry_precio.grid(row=3, column=1, padx=10, pady=5)
+    confirmar_button = tk.Button(button_frame, text="Confirmar", command=confirmar)
+    confirmar_button.grid(row=0, column=0, padx=10)
 
-tk.Label(root, text="Cantidad:").grid(row=4, column=0, padx=10, pady=5)
-entry_cantidad = tk.Entry(root)
-entry_cantidad.grid(row=4, column=1, padx=10, pady=5)
+    cancelar_button = tk.Button(button_frame, text="Cancelar", command=cancelar)
+    cancelar_button.grid(row=0, column=1, padx=10)
 
-# Crear y ubicar los botones
-btn_completar = tk.Button(root, text="Completar", command=completar)
-btn_completar.grid(row=5, column=0, padx=10, pady=10)
+    dialog.mainloop()
 
-btn_salir = tk.Button(root, text="Salir", command=salir)
-btn_salir.grid(row=5, column=1, padx=10, pady=10)
 
-# Iniciar el bucle principal de la interfaz
-root.mainloop()
+# Llama a la función para mostrar la ventana emergente
+solicitar_numero()

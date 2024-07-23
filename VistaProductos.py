@@ -36,6 +36,8 @@ def formulario_productos(actualizar_lista_callback):
             messagebox.showerror("Error", "¡Introduce un numero en precio!")
         elif not es_entero(cantidad):
             messagebox.showerror("Error", "¡Introduce un numero en cantidad!")
+        elif not tipo:
+            messagebox.showerror("Error", "¡Seleccione el tipo de aliento que es!")
         else:
             pr.crear_Producto(nombre, tipo, peso, precio, cantidad)
             actualizar_lista_callback()  # Llama a la función de actualización
@@ -64,17 +66,13 @@ def formulario_productos(actualizar_lista_callback):
     entry_cantidad = tk.Entry(root)
     entry_cantidad.grid(row=4, column=1, padx=10, pady=5)
 
-    btn_completar = tk.Button(root, text="Completar", command=completar)
+    btn_completar = tk.Button(root, text="Registrar", command=completar)
     btn_completar.grid(row=5, column=0, padx=10, pady=10)
 
-    btn_salir = tk.Button(root, text="Salir", command=salir)
+    btn_salir = tk.Button(root, text="Calncelar", command=salir)
     btn_salir.grid(row=5, column=1, padx=10, pady=10)
-
     root.mainloop()
 
-
-def nuevo_producto(lista_productos):
-    formulario_productos()
 
 def menuprincipal(ventana,nivel):
     import MenuPrincipal as mp
@@ -91,6 +89,46 @@ def actualizar_lista(lista_productos):
         for producto in pr.lista_produtos:
             lista_productos.insert(tk.END, str(producto))
 
+def eliminar_prod():
+    def solicitar_numero():
+        def confirmar():
+            try:
+                valor = int(entry.get())
+                messagebox.showinfo("Éxito", f"Número introducido: {valor}")
+                dialog.destroy()
+            except ValueError:
+                messagebox.showerror("Error", "Por favor, introduce un número válido.")
+
+        def cancelar():
+            dialog.destroy()
+
+        dialog = tk.Tk()
+        dialog.title("Introduce un número")
+
+        label = tk.Label(dialog, text="Por favor, introduce el id a modificar:")
+        label.pack(padx=20, pady=10)
+
+        entry = tk.Entry(dialog)
+        entry.pack(padx=20, pady=10)
+
+        button_frame = tk.Frame(dialog)
+        button_frame.pack(padx=20, pady=10)
+
+        confirmar_button = tk.Button(button_frame, text="Confirmar", command=confirmar)
+        confirmar_button.grid(row=0, column=0, padx=10)
+
+        cancelar_button = tk.Button(button_frame, text="Cancelar", command=cancelar)
+        cancelar_button.grid(row=0, column=1, padx=10)
+
+        dialog.mainloop()
+
+    # Llama a la función para mostrar la ventana emergente
+    print()
+
+
+def modificar_producto(ventana, nivel):
+    print()
+
 def main(nivel):
 
     def actualizar_lista_wrapper():
@@ -106,7 +144,16 @@ def main(nivel):
     boton_nuevo_producto = tk.Button(frame_izquierdo, text="Nuevo Producto", command=lambda: formulario_productos(actualizar_lista_wrapper))
     boton_nuevo_producto.pack(pady=5)
 
-    boton_menu_principal = tk.Button(frame_izquierdo, text="Regresar al Menú Principal", command=lambda: menuprincipal(ventana, nivel))
+    if nivel >= 2:
+        boton_menu_principal = tk.Button(frame_izquierdo, text="Editar Producto", command=lambda: modificar_producto(ventana,nivel))
+        boton_menu_principal.pack(pady=5)
+
+        boton_menu_principal = tk.Button(frame_izquierdo, text="Eliminar Producto",
+                                         command=lambda: eliminar_prod())
+        boton_menu_principal.pack(pady=5)
+
+    boton_menu_principal = tk.Button(frame_izquierdo, text="Regresar al Menú Principal",
+                                     command=lambda: menuprincipal(ventana, nivel))
     boton_menu_principal.pack(pady=5)
 
     frame_derecho = tk.Frame(ventana)
@@ -118,5 +165,4 @@ def main(nivel):
     actualizar_lista(lista_productos)
     ventana.mainloop()
 
-
-main(1)
+main(2)

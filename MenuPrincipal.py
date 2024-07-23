@@ -1,13 +1,15 @@
 import tkinter as tk
 from tkinter import messagebox
 
+
+
 def menu_ventas(nivel,ventana):
     ventana.destroy()
-    import VistaProductos as vv
-    vv.main(nivel)
 
-def menu_inventarios():
-    messagebox.showinfo("Menú de Inventarios", "Aquí puedes gestionar los inventarios.")
+def menu_inventarios(nivel,ventana):
+    import VistaProductos as vp
+    ventana.destroy()
+    vp.main(nivel)
 
 def generacion_reportes():
     messagebox.showinfo("Generación de Reportes", "Aquí puedes generar reportes.")
@@ -40,7 +42,7 @@ def main(nivel):
     btn_menu_ventas = tk.Button(ventana, text="Menú de Ventas", command=lambda:menu_ventas(nivel,ventana))
     btn_menu_ventas.pack(pady=10)
 
-    btn_menu_inventarios = tk.Button(ventana, text="Menú de Inventarios", command=lambda:menu_inventarios)
+    btn_menu_inventarios = tk.Button(ventana, text="Menú de Inventarios", command=lambda:menu_inventarios(nivel,ventana))
     btn_menu_inventarios.pack(pady=10)
 
     if nivel >= 2:
