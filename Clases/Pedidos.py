@@ -1,4 +1,4 @@
-from Ventas import Venta
+from ComerciaizadoraDeAlimentos.Clases.Ventas import Venta
 
 class Pedido(Venta):
     def __init__(self, estado, id_cliente, fecha_entrega, id, fecha,hora,id_usuario, id_producto, cantidad,  subtotal, metodo_pago):

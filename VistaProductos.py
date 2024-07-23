@@ -1,7 +1,8 @@
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
-import Productos as pr
+from ComerciaizadoraDeAlimentos.Clases import Productos as pr
+
 
 def formulario_productos(actualizar_lista_callback):
     tipo_dict = {

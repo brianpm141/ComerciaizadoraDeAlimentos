@@ -1,3 +1,4 @@
+import csv
 
 
 class Producto:
@@ -63,8 +64,25 @@ class Producto:
         self.cantidad = cantidad
 
 
-x = Producto(1,"test","perro",45,159,200 )
-lista_produtos = [x]
+def cargar_desde_csv():
+    lista_productos = []
+    try:
+        with open('Archivos/productos.csv', mode='r') as file:
+            reader = csv.reader(file)
+            next(reader)
+            for row in reader:
+                if row:
+                    id, nombre, tipo, peso, precio, cantidad, status = row
+                    producto = Producto(id, nombre, tipo, peso, precio, cantidad)
+                    producto.setstatus(int(status))
+                    lista_productos.append(producto)
+    except FileNotFoundError:
+        print(f"El archivo {'Archivos/productos.csv'} no se encuentra.")
+    except Exception as e:
+        print(f"Se produjo un error al leer el archivo: {e}")
+    return lista_productos
+
+lista_produtos = cargar_desde_csv()
 
 
 def is_empty():
@@ -76,12 +94,15 @@ def crear_Producto(nombre, tipo, peso, precio, cantidad):
     id = len(lista_produtos) + 1
     aux = Producto(id, nombre, tipo, peso, precio, cantidad)
     lista_produtos.append(aux)
+    guardar_en_csv(lista_produtos)
 
 def eliminar_producto(id):
     for product in lista_produtos:
         if product.getid() == id:
             product.setstatus(0)
+            guardar_en_csv(lista_produtos)
             return True
+    guardar_en_csv(lista_produtos)
     return False
 
 def buscar_producto(id):
@@ -90,6 +111,14 @@ def buscar_producto(id):
             return product
     return None
 
+def guardar_en_csv(lista_productos):
+    with open('Archivos/productos.csv', mode='w', newline='') as file:
+        writer = csv.writer(file)
+        # Escribir la cabecera del CSV
+        writer.writerow(["ID", "Nombre", "Tipo", "Peso", "Precio", "Cantidad", "Status"])
+        # Escribir los datos de cada producto
+        for producto in lista_productos:
+            writer.writerow([producto.getid(), producto.getombre(), producto.gettipo(), producto.getpeso(), producto.getprecio(), producto.getcantidad(), producto.getstatus()])
 
 
 

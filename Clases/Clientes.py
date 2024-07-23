@@ -1,4 +1,4 @@
-from Personas import Persona
+from ComerciaizadoraDeAlimentos.Clases.Personas import Persona
 
 
 class Cliente(Persona):

@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
-import Usuarios as usr
+from ComerciaizadoraDeAlimentos.Clases import Usuarios as usr
 import MenuPrincipal as mp
 
 
@@ -8,7 +8,6 @@ def login(entry_usuario,entry_psw,ventana):
     usuario = entry_usuario.get()
     psw = entry_psw.get()
     pswaux,nivel,id = usr.buscarUsuario(usuario)
-    print(id)
 
     if not usuario or not psw:
         messagebox.showerror("Error", "¡Introduce nombre de usuario y contraseña!")
