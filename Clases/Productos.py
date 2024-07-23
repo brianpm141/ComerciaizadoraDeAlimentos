@@ -1,4 +1,4 @@
-import ComerciaizadoraDeAlimentos.Clases.Registros as reg
+import Clases.Registros as reg
 import csv
 
 

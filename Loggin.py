@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
-from ComerciaizadoraDeAlimentos.Clases import Usuarios as usr
+from Clases import Usuarios as usr
 import MenuPrincipal as mp
 
 
@@ -15,7 +15,7 @@ def login(entry_usuario,entry_psw,ventana):
         messagebox.showerror("Error", "Usuario o contraseña incorrectos")
     elif psw == pswaux:
         ventana.destroy()
-        mp.main(nivel)
+        mp.main(nivel,id)
 
 def main():
     ventana = tk.Tk()

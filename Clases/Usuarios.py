@@ -1,4 +1,4 @@
-from ComerciaizadoraDeAlimentos.Clases.Personas import Persona
+from Clases.Personas import Persona
 
 class Usuario(Persona):
     def __init__(self,id, nombre, apaterno, amaterno, telefono, usuario, psw, nivel):

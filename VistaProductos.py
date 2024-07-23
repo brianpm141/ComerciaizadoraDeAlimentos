@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
-from ComerciaizadoraDeAlimentos.Clases import Productos as pr
+from Clases import Productos as pr
 
 
 def formulario_productos(actualizar_lista_callback):
@@ -72,10 +72,10 @@ def formulario_productos(actualizar_lista_callback):
     btn_salir = tk.Button(root, text="Cancelar", command=salir)
     btn_salir.grid(row=5, column=1, padx=10, pady=10)
 
-def menuprincipal(ventana, nivel):
+def menuprincipal(ventana, nivel,id):
     ventana.destroy()
     import MenuPrincipal as mp
-    mp.main(nivel)
+    mp.main(nivel,id)
 
 def actualizar_lista(lista_productos):
     # Actualiza la lista de productos en la interfaz
@@ -229,7 +229,8 @@ def modificar_producto(actualizar_lista_wrapper):
     cancelar_button = tk.Button(button_frame, text="Cancelar", command=cancelar)
     cancelar_button.grid(row=0, column=1, padx=10)
 
-def main(nivel):
+def main(nivel,id):
+    print(id)
     def actualizar_lista_wrapper():
         actualizar_lista(lista_productos)
 
@@ -252,7 +253,7 @@ def main(nivel):
         boton_menu_principal.pack(pady=5)
 
     boton_menu_principal = tk.Button(frame_izquierdo, text="Regresar al Menú Principal",
-                                     command=lambda: menuprincipal(ventana, nivel))
+                                     command=lambda: menuprincipal(ventana, nivel,id))
     boton_menu_principal.pack(pady=5)
 
     frame_derecho = tk.Frame(ventana)
