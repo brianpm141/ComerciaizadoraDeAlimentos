@@ -1,5 +1,6 @@
 from Clases.Personas import Persona
 
+
 class Usuario(Persona):
     def __init__(self,id, nombre, apaterno, amaterno, telefono, usuario, psw, nivel):
         self.usuario = usuario
@@ -17,6 +18,9 @@ class Usuario(Persona):
     def getnivel(self):
         return self.nivel
 
+    def getstatus(self):
+        return self.status
+
     def setusuario(self):
         self.usuario = self.usuario
 
@@ -25,6 +29,10 @@ class Usuario(Persona):
 
     def setnivel(self):
         self.nivel = self.nivel
+
+    def __str__(self):
+        return f" Usuario: {self.usuario} -- Nivel:{self.nivel}"
+
 
 x = Usuario(1,"carlito","campos", "campos", "72234231", "admin","admin",3)
 y = Usuario(2,"carlito2","campos", "campos", "72234231", "user2","12345",2)
@@ -44,6 +52,12 @@ def getnombre_usuario(valor):
         if valor == usr.getid():
             print(usr.getusuario())
             return usr.getusuario()
+
+
+def is_empty():
+    for prod in listaUsuaros:
+        if prod.getstatus() == 1: return False
+    return True
 
 
 def creacionUsuario(nombre, apaterno, amaterno, telefono, usuario, psw, nivel):

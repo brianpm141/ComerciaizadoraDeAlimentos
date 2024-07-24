@@ -24,7 +24,7 @@ def mostrar_detalles(event):
 def actualizar_lista(lista_registros):
     lista_registros.delete(0, tk.END)
     if reg.is_empty():
-        lista_registros.insert(tk.END, "No existe ningún producto registrado")
+        lista_registros.insert(tk.END, "No se han registrado movimientos")
     else:
         for registro in reg.lista_registros:
             lista_registros.insert(tk.END, str(registro))
