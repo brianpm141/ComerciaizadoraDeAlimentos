@@ -4,9 +4,12 @@ from tkinter import ttk
 from Clases import Usuarios as usu
 
 
-def crearUsuario(ventana, nivel, id):
+def crearUsuario(id):
     print("holi")
 
+
+def editarUsuario(id):
+    print("edicion usuario")
 
 def menuprincipal(ventana, nivel, id):
     ventana.destroy()
@@ -15,7 +18,21 @@ def menuprincipal(ventana, nivel, id):
 
 
 def mostrar_detalles(event):
-    print("")
+    seleccion = lista_usuarios.curselection()
+    if seleccion:
+        indice = seleccion[0]
+        detalles = usu.listaUsuaros[indice]
+        detalles_str = (
+            f"Id: {detalles.getid()}\n"
+            f"Nombre: {detalles.getnombre()}\n"
+            f"Apellido Paterno: {detalles.getapaterno()}\n"
+            f"Apellido Materno: {detalles.getamaterno()}\n"
+            f"Teléfono: {detalles.gettelefono()}\n"
+            f"Usuario: {detalles.getusuario()}\n"
+            f"Contraseña: {detalles.getpsw()}\n"
+            f"Nivel: {detalles.getnivel()}"
+        )
+        messagebox.showinfo("Detalles del Producto", detalles_str)
 
 
 def actualizar_lista(lista_usuarios):
@@ -39,11 +56,11 @@ def main(nivel, id):
     frame_izquierdo.pack(side=tk.LEFT, padx=10, pady=10)
 
     boton_crear_usuario = tk.Button(frame_izquierdo, text="Crear Usuario",
-                                     command=lambda: crearUsuario(ventana, nivel, id))
+                                     command=lambda: crearUsuario(id))
     boton_crear_usuario.pack(pady=5)
 
     boton_editar_usuario = tk.Button(frame_izquierdo, text="Editar Usuario",
-                                    command=lambda: menuprincipal(ventana, nivel, id))
+                                    command=lambda: editarUsuario(id))
     boton_editar_usuario.pack(pady=5)
 
 

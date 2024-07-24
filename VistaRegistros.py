@@ -12,7 +12,7 @@ def menuprincipal(ventana, nivel, id):
 
 def mostrar_detalles(event):
     from Clases import Usuarios as us
-    seleccion = lista_productos.curselection()
+    seleccion = lista_registros.curselection()
     if seleccion:
         indice = seleccion[0]
         detalles = reg.lista_registros[indice]
@@ -31,10 +31,9 @@ def actualizar_lista(lista_registros):
 
 
 def main(nivel, id):
-    print(id)
 
     def actualizar_lista_wrapper():
-        actualizar_lista(lista_productos)
+        actualizar_lista(lista_registros)
 
     ventana = tk.Tk()
     ventana.title("Registro de actividades")
@@ -50,10 +49,10 @@ def main(nivel, id):
     frame_derecho = tk.Frame(ventana)
     frame_derecho.pack(side=tk.RIGHT, padx=10, pady=10)
 
-    global lista_productos
-    lista_productos = tk.Listbox(frame_derecho, width=80, height=20)
-    lista_productos.pack()
-    lista_productos.bind('<<ListboxSelect>>', mostrar_detalles)
+    global lista_registros
+    lista_registros = tk.Listbox(frame_derecho, width=80, height=20)
+    lista_registros.pack()
+    lista_registros.bind('<<ListboxSelect>>', mostrar_detalles)
 
-    actualizar_lista(lista_productos)
+    actualizar_lista(lista_registros)
     ventana.mainloop()
