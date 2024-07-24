@@ -38,6 +38,14 @@ def buscarUsuario(usuario):
             return (usr.getpsw(), usr.getnivel(),usr.getid())
     return None, None, None
 
+
+def getnombre_usuario(valor):
+    for usr in listaUsuaros:
+        if valor == usr.getid():
+            print(usr.getusuario())
+            return usr.getusuario()
+
+
 def creacionUsuario(nombre, apaterno, amaterno, telefono, usuario, psw, nivel):
     id = len(listaUsuaros) + 1
     usuaux = Usuario(id, nombre, apaterno, amaterno, telefono, usuario, psw, nivel)

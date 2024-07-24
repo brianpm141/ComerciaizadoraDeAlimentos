@@ -18,8 +18,11 @@ def gestion_usuarios():
 def gestion_clientes():
     messagebox.showinfo("Gestión de Clientes", "Aquí puedes gestionar los clientes.")
 
-def registro_actividades():
-    messagebox.showinfo("Registro de Actividades", "Aquí puedes registrar actividades.")
+def registro_actividades(nivel, ventana, id):
+    ventana.destroy()
+    import VistaRegistros as vr
+    vr.main(nivel, id)
+
 
 def cerrar_sesion(ventana):
     import Loggin as lg  # Importación dentro de la función para evitar importación circular
@@ -39,7 +42,8 @@ def main(nivel,id):
     btn_menu_ventas = tk.Button(ventana, text="Menú de Ventas", command=lambda: menu_ventas(nivel, ventana))
     btn_menu_ventas.pack(pady=10)
 
-    btn_menu_inventarios = tk.Button(ventana, text="Menú de Inventarios", command=lambda: menu_inventarios(nivel, ventana,id))
+    btn_menu_inventarios = tk.Button(ventana, text="Menú de Inventarios",
+                                     command=lambda: menu_inventarios(nivel, ventana,id))
     btn_menu_inventarios.pack(pady=10)
 
     if nivel >= 2:
@@ -54,7 +58,8 @@ def main(nivel,id):
     btn_gestion_clientes.pack(pady=10)
 
     if nivel == 3:
-        btn_registro_actividades = tk.Button(ventana, text="Registro de Actividades", command=registro_actividades)
+        btn_registro_actividades = tk.Button(ventana, text="Registro de Actividades",
+                                             command=lambda : registro_actividades(nivel, ventana, id))
         btn_registro_actividades.pack(pady=10)
 
     btn_cerrar_sesion = tk.Button(ventana, text="Cerrar Sesión", command=lambda: cerrar_sesion(ventana))

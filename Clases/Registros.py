@@ -12,7 +12,7 @@ class Registro:
         self.id_mov = int(id_mov)
 
     def __str__(self):
-        return f" id: {self.id_registro}  -  Fecha: {self.fecha}   -  id_usuario:{self.id_usuario}  -   Fecha: {self.tipo_mov} "
+        return f" id: {self.id_registro} -- Fecha:{self.fecha} -- id_usuario:{self.id_usuario} -- Movimiento: {self.tipo_mov} "
 
 
     def getid_registro(self):
@@ -28,7 +28,7 @@ class Registro:
         return self.id_usuario
 
     def gettipomov(self):
-        return self.tipomov
+        return self.tipo_mov
 
     def getid_mov(self):
         return self.id_mov
