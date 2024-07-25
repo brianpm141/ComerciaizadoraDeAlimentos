@@ -62,8 +62,8 @@ def cargar_registros_desde_csv():
                     lista_aux.append(registro)
     except FileNotFoundError:
         print(f"El archivo {'./Archivos/registros.csv'} no se encuentra.")
-    #except Exception as e:
-        #print(f"Se produjo un error al leer el archivo: {e}")
+    except Exception as e:
+        print(f"Se produjo un error al leer el archivo: {e}")
     return lista_aux
 
 lista_registros = cargar_registros_desde_csv()
@@ -83,6 +83,7 @@ def crearRegistro(id_usuario,tipo_mov,id_mov):
     regaux = Registro(id, fecha,hora,id_usuario,tipo_mov,id_mov)
     lista_registros.append(regaux)
     guardar_registros_en_csv()
+
 
 def guardar_registros_en_csv():
     with open('./Archivos/registros.csv', mode='w', newline='') as file:

@@ -12,8 +12,10 @@ def menu_inventarios(nivel, ventana,id):
 def generacion_reportes():
     messagebox.showinfo("Generación de Reportes", "Aquí puedes generar reportes.")
 
-def gestion_usuarios():
-    messagebox.showinfo("Gestión de Usuarios", "Aquí puedes gestionar los usuarios.")
+def gestion_usuarios(nivel,ventana, id):
+    ventana.destroy()
+    import VistaUsuarios as vu
+    vu.main(nivel, id)
 
 def gestion_clientes():
     messagebox.showinfo("Gestión de Clientes", "Aquí puedes gestionar los clientes.")
@@ -51,7 +53,7 @@ def main(nivel,id):
         btn_generacion_reportes.pack(pady=10)
 
     if nivel == 3:
-        btn_gestion_usuarios = tk.Button(ventana, text="Gestión de Usuarios", command=gestion_usuarios)
+        btn_gestion_usuarios = tk.Button(ventana, text="Gestión de Usuarios", command=lambda:gestion_usuarios(nivel, ventana,id))
         btn_gestion_usuarios.pack(pady=10)
 
     btn_gestion_clientes = tk.Button(ventana, text="Gestión de Clientes", command=gestion_clientes)

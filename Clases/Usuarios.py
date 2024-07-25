@@ -35,7 +35,19 @@ class Usuario(Persona):
         self.status = val
 
     def __str__(self):
-        return f" Usuario: {self.usuario} -- Nivel:{self.nivel}"
+        return f" ID: {self.id}  -  Usuario: {self.usuario} -- Nivel:{self.nivel}"
+
+
+    def modificarUsuario(self,nombre, apaterno, amaterno, telefono, usuario, psw, nivel):
+        self.setnombre(nombre)
+        self.setapaterno(apaterno)
+        self.setamaterno(amaterno)
+        self.settelefono(telefono)
+        self.setusuario(usuario)
+        self.setpsw(psw)
+        self.setnivel(nivel)
+
+
 
 
 def cargar_desde_csv():
@@ -64,6 +76,13 @@ def buscarUsuario(usuario):
         if usuario == usr.getusuario():
             return (usr.getpsw(), usr.getnivel(),usr.getid())
     return None, None, None
+
+
+def buscarUsuarioid(num):
+    for usr in listaUsuaros:
+        if num == usr.getid():
+            return usr
+    return False
 
 
 def getnombre_usuario(valor):
@@ -102,7 +121,28 @@ def guardar_en_csv(lista_productos):
             writer.writerow([usuario.getid(), usuario.getnombre(),usuario.getapaterno(),usuario.getamaterno(),usuario.gettelefono(),
                              usuario.getusuario(),usuario.getpsw(),usuario.getnivel(),usuario.getstatus()])
 
-cargar_desde_csv()
+def modificarUsuario(id_usu,nombre, apaterno, amaterno, telefono, usuario, psw, nivel,id_ses):
+    if nivel == "Administrador":
+        nivel = 3
+    elif nivel == "Gerente":
+        nivel = 2
+    else:
+        nivel = 1
+
+    for usr in listaUsuaros:
+        if id_usu == usr.getid():
+            usr.modificarUsuario(nombre, apaterno, amaterno, telefono, usuario, psw, nivel)
+            guardar_en_csv(listaUsuaros)
+            reg.crearRegistro(id_ses, "Modificar Usuario", id_usu)
+
+def eliminarUsuario(id_usuario, id_ses):
+    for usr in listaUsuaros:
+        if id_usuario == usr.getid():
+            usr.setstatus(0)
+            guardar_en_csv(listaUsuaros)
+            reg.crearRegistro(id_ses, "Eliminar Usuario", id_ses)
+
+
 
 
 

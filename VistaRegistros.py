@@ -17,7 +17,7 @@ def mostrar_detalles(event):
         indice = seleccion[0]
         detalles = reg.lista_registros[indice]
         id_buscar= detalles.getid_usuario()
-        detalles_str = f"Fecha: {detalles.getfecha()}\nhora: {detalles.gethora()}\nid_usuario que realizo la accion: {us.getnombre_usuario(id_buscar)}\nMovimiento: {detalles.gettipomov()}\nid del movimiento: {detalles.getid_mov()}"
+        detalles_str = f"Fecha: {detalles.getfecha()}\nhora: {detalles.gethora()}\nUsuario que realizo la accion:   {us.getnombre_usuario(id_buscar)}\nMovimiento: {detalles.gettipomov()}\nid del movimiento: {detalles.getid_mov()}"
         messagebox.showinfo("Detalles del Producto", detalles_str)
 
 

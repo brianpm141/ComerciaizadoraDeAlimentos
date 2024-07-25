@@ -125,4 +125,3 @@ def guardar_en_csv(lista_productos):
             writer.writerow([producto.getid(), producto.getombre(), producto.gettipo(), producto.getpeso(), producto.getprecio(), producto.getcantidad(), producto.getstatus()])
 
 
-

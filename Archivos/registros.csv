@@ -14,3 +14,14 @@ ID Registro,Fecha,Hora,ID Usuario,Tipo Movimiento,ID Movimiento
 13,2024-07-23,13:13:25,1,Eliminar Producto,1
 14,2024-07-23,13:13:31,1,Eliminar Producto,4
 15,2024-07-23,13:13:35,1,Eliminar Producto,2
+16,2024-07-25,11:08:49,1,Creacion de usuario,3
+17,2024-07-25,13:50:19,5,Modificar Usuario,2
+18,2024-07-25,13:50:30,5,Modificar Usuario,2
+19,2024-07-25,14:04:50,5,Eliminar Usuario,5
+20,2024-07-25,14:07:14,5,Creacion de usuario,4
+21,2024-07-25,14:07:57,5,Modificar Usuario,4
+22,2024-07-25,14:08:22,5,Eliminar Usuario,5
+23,2024-07-25,14:12:08,1,Creacion de usuario,5
+24,2024-07-25,14:12:24,1,Modificar Usuario,5
+25,2024-07-25,14:12:31,1,Eliminar Usuario,1
+26,2024-07-25,14:14:28,5,Crear Producto,5
