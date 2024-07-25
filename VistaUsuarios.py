@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import messagebox
-from tkinter import ttk
 from Clases import Usuarios as usu
 
 

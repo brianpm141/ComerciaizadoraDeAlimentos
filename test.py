@@ -37,7 +37,7 @@ def crearUsuario(id_usuario, actualizar_lista_callback):
             messagebox.showerror("Error", "¡Seleccione un nivel válido!")
         else:
             nivel_codigo = niveles[nivel]
-            usu.crearUsuario(nombre, apaterno, amaterno, telefono, usuario, psw, nivel_codigo)
+            usu.crearUsuario(id_usuario,nombre, apaterno, amaterno, telefono, usuario, psw, nivel_codigo)
             actualizar_lista_callback()
             root.destroy()
 

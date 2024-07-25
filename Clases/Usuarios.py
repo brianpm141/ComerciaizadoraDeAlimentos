@@ -1,4 +1,5 @@
 from Clases.Personas import Persona
+import Clases.Registros as reg
 import csv
 
 class Usuario(Persona):
@@ -21,17 +22,17 @@ class Usuario(Persona):
     def getstatus(self):
         return self.status
 
-    def setusuario(self):
-        self.usuario = self.usuario
+    def setusuario(self,usuario):
+        self.usuario = usuario
 
-    def setpsw(self):
-        self.psw = self.psw
+    def setpsw(self,psw):
+        self.psw = psw
 
-    def setnivel(self):
-        self.nivel = self.nivel
+    def setnivel(self,nivel):
+        self.nivel = nivel
 
-    def setstatus(self):
-        self.status = self.status
+    def setstatus(self,val):
+        self.status = val
 
     def __str__(self):
         return f" Usuario: {self.usuario} -- Nivel:{self.nivel}"
@@ -40,7 +41,7 @@ class Usuario(Persona):
 def cargar_desde_csv():
     lista_productos = []
     try:
-        with open('../Archivos/usuarios.csv', mode='r') as file:
+        with open('./Archivos/usuarios.csv', mode='r') as file:
             reader = csv.reader(file)
             next(reader)
             for row in reader:
@@ -77,7 +78,7 @@ def is_empty():
     return True
 
 
-def crearUsuario(nombre, apaterno, amaterno, telefono, usuario, psw, nivel):
+def crearUsuario(id_usuario,nombre, apaterno, amaterno, telefono, usuario, psw, nivel):
     id = len(listaUsuaros) + 1
     if nivel == "Administrador":
         nivel = 3
@@ -88,19 +89,20 @@ def crearUsuario(nombre, apaterno, amaterno, telefono, usuario, psw, nivel):
     telefono = int(telefono)
     usuaux = Usuario(id, nombre, apaterno, amaterno, telefono, usuario, psw, nivel)
     listaUsuaros.append(usuaux)
-    print(usuaux.__str__())
+    guardar_en_csv(listaUsuaros)
+    reg.crearRegistro(id_usuario,"Creacion de usuario",id)
+
 
 def guardar_en_csv(lista_productos):
-    with open('../Archivos/usuarios.csv', mode='w', newline='') as file:
+    with open('./Archivos/usuarios.csv', mode='w', newline='') as file:
         writer = csv.writer(file)
         # Escribir la cabecera del CSV
-        writer.writerow(["id", "nombre", "apaterno", "amaterno", "telefono", "usuario", "psw", "nivel,status"])
+        writer.writerow(["id", "nombre", "apaterno", "amaterno", "telefono", "usuario", "psw", "nivel","status"])
         for usuario in listaUsuaros:
-            writer.writerow([usuario.getid(), usuario.getnombre(),usuario.getapaterno(),usuario.gettelefono(),
+            writer.writerow([usuario.getid(), usuario.getnombre(),usuario.getapaterno(),usuario.getamaterno(),usuario.gettelefono(),
                              usuario.getusuario(),usuario.getpsw(),usuario.getnivel(),usuario.getstatus()])
 
-guardar_en_csv(listaUsuaros)
-
+cargar_desde_csv()
 
 
 
