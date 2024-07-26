@@ -28,8 +28,8 @@ def registro_actividades(nivel, ventana, id):
 
 def cerrar_sesion(ventana):
     import Loggin as lg  # Importación dentro de la función para evitar importación circular
-    ventana.destroy()
     messagebox.showinfo("Cerrar Sesión", "Has cerrado sesión.")
+    ventana.destroy()
     lg.main()
 
 def salir(ventana):

@@ -242,10 +242,11 @@ def main(nivel,id):
     frame_izquierdo = tk.Frame(ventana)
     frame_izquierdo.pack(side=tk.LEFT, padx=10, pady=10)
 
-    boton_nuevo_producto = tk.Button(frame_izquierdo, text="Nuevo Producto", command=lambda: formulario_productos(id,actualizar_lista_wrapper))
-    boton_nuevo_producto.pack(pady=5)
-
     if nivel >= 2:
+        boton_nuevo_producto = tk.Button(frame_izquierdo, text="Nuevo Producto", command=lambda: formulario_productos(id,actualizar_lista_wrapper))
+        boton_nuevo_producto.pack(pady=5)
+
+
         boton_menu_principal = tk.Button(frame_izquierdo, text="Editar Producto", command=lambda: modificar_producto(id,actualizar_lista_wrapper))
         boton_menu_principal.pack(pady=5)
 

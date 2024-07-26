@@ -25,3 +25,6 @@ ID Registro,Fecha,Hora,ID Usuario,Tipo Movimiento,ID Movimiento
 24,2024-07-25,14:12:24,1,Modificar Usuario,5
 25,2024-07-25,14:12:31,1,Eliminar Usuario,1
 26,2024-07-25,14:14:28,5,Crear Producto,5
+27,2024-07-25,16:41:43,1,Creacion de usuario,6
+28,2024-07-25,16:42:05,1,Creacion de usuario,7
+29,2024-07-25,16:42:16,1,Modificar Usuario,7

@@ -4,3 +4,5 @@ id,nombre,apaterno,amaterno,telefono,usuario,psw,nivel,status
 3,maikosl,felps,jelipe,1234567890,usuariotes,nbuawda,2,0
 4,ramon,no es,dragon,1234567899,test1,12345,1,0
 5,Maik,cesar,Bajista,1236547890,Maik,54321,1,1
+6,usuario1,usuario1,usuario1,1234567890,usuario1,12345,1,1
+7,usuario2,usu2,usu2,1236547890,usuario2,12345,2,1
