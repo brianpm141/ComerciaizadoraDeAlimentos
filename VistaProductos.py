@@ -4,7 +4,7 @@ from tkinter import ttk
 from Clases import Productos as pr
 
 
-def formulario_productos(id_usuario,actualizar_lista_callback):
+def formulario_productos(id_usuario, actualizar_lista_callback):
     tipo_dict = {
         "Perros": 1,
         "Gatos": 2,
@@ -28,18 +28,41 @@ def formulario_productos(id_usuario,actualizar_lista_callback):
             except ValueError:
                 return False
 
+        # Validaciones
         if not nombre or not tipo or not peso or not precio or not cantidad:
             messagebox.showerror("Error", "¡Introduce todos los campos!")
-        elif not es_entero(peso):
-            messagebox.showerror("Error", "¡Introduce un numero en peso!")
-        elif not es_entero(precio):
-            messagebox.showerror("Error", "¡Introduce un numero en precio!")
-        elif not es_entero(cantidad):
-            messagebox.showerror("Error", "¡Introduce un numero en cantidad!")
-        elif not tipo:
-            messagebox.showerror("Error", "¡Seleccione el tipo de aliento que es!")
+            root.lift()
+            root.attributes("-topmost", True)
+            root.after_idle(root.attributes, "-topmost", False)
+        elif len(nombre) > 40:
+            messagebox.showerror("Error", "El nombre no puede tener más de 40 caracteres.")
+            root.lift()
+            root.attributes("-topmost", True)
+            root.after_idle(root.attributes, "-topmost", False)
+        elif not es_entero(precio) or len(precio) > 3:
+            messagebox.showerror("Error", "El precio debe ser un numero menor a 999.")
+            root.lift()
+            root.attributes("-topmost", True)
+            root.after_idle(root.attributes, "-topmost", False)
+        elif not es_entero(peso) or len(peso) > 3:
+            messagebox.showerror("Error", "El peso debe un numero menor a 999.")
+            root.lift()
+            root.attributes("-topmost", True)
+            root.after_idle(root.attributes, "-topmost", False)
+        elif not es_entero(cantidad) or len(cantidad) > 3:
+            messagebox.showerror("Error", "La cantidad debe ser un numero menor a 999.")
+            root.lift()
+            root.attributes("-topmost", True)
+            root.after_idle(root.attributes, "-topmost", False)
+        elif tipo not in tipo_dict:
+            messagebox.showerror("Error", "Debe seleccionar una categoría válida.")
+            root.lift()
+            root.attributes("-topmost", True)
+            root.after_idle(root.attributes, "-topmost", False)
         else:
-            pr.crear_Producto(id_usuario,nombre, tipo, peso, precio, cantidad)
+            # Si todas las validaciones pasan, registrar el producto
+            messagebox.showinfo("Registro exitoso", "El producto se registro correctamente")
+            pr.crear_Producto(id_usuario, nombre, tipo_dict[tipo], peso, precio, cantidad)
             actualizar_lista_callback()  # Llama a la función de actualización
             root.destroy()
 
@@ -71,6 +94,7 @@ def formulario_productos(id_usuario,actualizar_lista_callback):
 
     btn_salir = tk.Button(root, text="Cancelar", command=salir)
     btn_salir.grid(row=5, column=1, padx=10, pady=10)
+
 
 def menuprincipal(ventana, nivel,id):
     ventana.destroy()
@@ -149,14 +173,16 @@ def modificar_producto(id_usuario,actualizar_lista_wrapper):
 
             if not nombre or not tipo or not peso or not precio or not cantidad:
                 messagebox.showerror("Error", "¡Introduce todos los campos!")
-            elif not es_entero(peso):
-                messagebox.showerror("Error", "¡Introduce un numero en peso!")
-            elif not es_entero(precio):
-                messagebox.showerror("Error", "¡Introduce un numero en precio!")
-            elif not es_entero(cantidad):
-                messagebox.showerror("Error", "¡Introduce un numero en cantidad!")
-            elif not tipo:
-                messagebox.showerror("Error", "¡Seleccione el tipo de aliento que es!")
+            elif len(nombre) > 40:
+                messagebox.showerror("Error", "El nombre no puede tener más de 40 caracteres.")
+            elif not es_entero(precio) or len(precio) > 3:
+                messagebox.showerror("Error", "El precio debe ser un numero menor a 999.")
+            elif not es_entero(peso) or len(peso) > 3:
+                messagebox.showerror("Error", "El peso debe un numero menor a 999.")
+            elif not es_entero(cantidad) or len(cantidad) > 3:
+                messagebox.showerror("Error", "La cantidad debe ser un numero menor a 999.")
+            elif tipo not in tipo_dict:
+                messagebox.showerror("Error", "Debe seleccionar una categoría válida.")
             else:
                 prod.modificar_valores(id_usuario,nombre, tipo, peso, precio, cantidad)
                 messagebox.showinfo("Modificado", "El producto fue modificado exitosamente")
@@ -231,7 +257,6 @@ def modificar_producto(id_usuario,actualizar_lista_wrapper):
     cancelar_button.grid(row=0, column=1, padx=10)
 
 def main(nivel,id):
-    print(id)
     def actualizar_lista_wrapper():
         actualizar_lista(lista_productos)
 

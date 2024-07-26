@@ -103,16 +103,20 @@ def crear_Producto(id_usuario,nombre, tipo, peso, precio, cantidad):
 def eliminar_producto(id_usuario,id):
     for product in lista_produtos:
         if product.getid() == id:
-            product.setstatus(0)
-            guardar_en_csv(lista_produtos)
-            reg.crearRegistro(id_usuario, "Eliminar Producto", id)
+            if product.getstatus() == 1:
+                product.setstatus(0)
+                guardar_en_csv(lista_produtos)
+                reg.crearRegistro(id_usuario, "Eliminar Producto", id)
+            else: return False
             return True
     return False
 
 def buscar_producto(id):
     for product in lista_produtos:
         if product.getid() == id:
-            return product
+            if product.getstatus() == 1:
+                return product
+            else: return None
     return None
 
 def guardar_en_csv(lista_productos):
