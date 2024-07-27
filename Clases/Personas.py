@@ -28,7 +28,7 @@ class Persona:
         self.apaterno = apaterno
 
     def setamaterno(self, amaterno):
-        self.apmaterno = amaterno
+        self.amaterno = amaterno
 
     def settelefono(self, telefono):
         self.telefono = telefono

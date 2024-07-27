@@ -104,7 +104,7 @@ def editarCliente(id, actualizar_lista_callback):
                     except ValueError:
                         return False
 
-                if not nombre or not apaterno or not amaterno or not telefono or not correo or not direccion or not correo or not direccion:
+                if not nombre or not apaterno or not amaterno or not telefono or not correo or not direccion:
                     messagebox.showerror("Error", "¡Introduce todos los campos!")
                 elif not es_entero(telefono) or len(telefono) != 10:
                     messagebox.showerror("Error", "¡Introduce un número de teléfono válido de 10 dígitos!")

@@ -58,7 +58,7 @@ def main(nivel,id):
         btn_gestion_usuarios = tk.Button(ventana, text="Gestión de Usuarios", command=lambda:gestion_usuarios(nivel, ventana,id))
         btn_gestion_usuarios.pack(pady=10)
 
-    btn_gestion_clientes = tk.Button(ventana, text="Gestión de Clientes", command=gestion_clientes)
+    btn_gestion_clientes = tk.Button(ventana, text="Gestión de Clientes", command=lambda:gestion_clientes(nivel, ventana,id))
     btn_gestion_clientes.pack(pady=10)
 
     if nivel == 3:

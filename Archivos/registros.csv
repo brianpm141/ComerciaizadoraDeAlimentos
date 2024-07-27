@@ -45,3 +45,7 @@ ID Registro,Fecha,Hora,ID Usuario,Tipo Movimiento,ID Movimiento
 44,2024-07-26,13:42:07,1,Modificar Cliente,1
 45,2024-07-26,13:44:15,1,Modificar Cliente,1
 46,2024-07-26,13:44:27,1,Eliminar Cliente,1
+47,2024-07-26,18:16:35,1,Creacion de Cliente,2
+48,2024-07-26,18:16:55,1,Modificar Cliente,2
+49,2024-07-26,18:28:16,1,Modificar Cliente,2
+50,2024-07-26,18:34:18,1,Modificar Cliente,2
