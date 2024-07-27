@@ -79,10 +79,13 @@ def buscarUsuario(usuario):
 
 
 def buscarUsuarioid(num):
-    for usr in listaUsuaros:
-        if num == usr.getid():
-            return usr
-    return False
+    for usu in listaUsuaros:
+        if usu.getid() == id:
+            if usu.getstatus() == 1:
+                return usu
+            else:
+                return None
+    return None
 
 
 def getnombre_usuario(valor):
@@ -136,11 +139,16 @@ def modificarUsuario(id_usu,nombre, apaterno, amaterno, telefono, usuario, psw, 
             reg.crearRegistro(id_ses, "Modificar Usuario", id_usu)
 
 def eliminarUsuario(id_usuario, id_ses):
-    for usr in listaUsuaros:
-        if id_usuario == usr.getid():
-            usr.setstatus(0)
-            guardar_en_csv(listaUsuaros)
-            reg.crearRegistro(id_ses, "Eliminar Usuario", id_ses)
+    for product in listaUsuaros:
+        if product.getid() == id_ses:
+            if product.getstatus() == 1:
+                product.setstatus(0)
+                guardar_en_csv(listaUsuaros)
+                reg.crearRegistro(id_usuario, "Eliminar Usuario", id_ses)
+            else:
+                return False
+            return True
+    return False
 
 
 

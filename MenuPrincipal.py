@@ -17,8 +17,10 @@ def gestion_usuarios(nivel,ventana, id):
     import VistaUsuarios as vu
     vu.main(nivel, id)
 
-def gestion_clientes():
-    messagebox.showinfo("Gestión de Clientes", "Aquí puedes gestionar los clientes.")
+def gestion_clientes(nivel,ventana, id):
+    ventana.destroy()
+    import VistaClientes as vc
+    vc.main(nivel, id)
 
 def registro_actividades(nivel, ventana, id):
     ventana.destroy()
