@@ -203,6 +203,7 @@ def actualizar_lista(lista_usuarios):
             if registro.getStatus() == 1:
                 lista_usuarios.insert(tk.END, str(registro))
 
+
 def main(nivel, id):
     def actualizar_lista_wrapper():
         actualizar_lista(lista_clientes)
@@ -241,5 +242,3 @@ def main(nivel, id):
     actualizar_lista(lista_clientes)
     ventana.mainloop()
 
-
-main(1,1)

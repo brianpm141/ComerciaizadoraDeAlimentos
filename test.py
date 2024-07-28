@@ -1,35 +1,88 @@
 import tkinter as tk
-from tkinter import messagebox
+import Clases.Ventas as vnt
+import Clases.Pedidos as ped
 
-def generar_reporte_ventas():
-    messagebox.showinfo("Reporte", "Generando reporte de ventas...")
 
-def generar_reporte_pedidos():
-    messagebox.showinfo("Reporte", "Generando reporte de pedidos...")
+def menuprincipal(ventana, nivel, id):
+    ventana.destroy()
+    import MenuPrincipal as mp
+    mp.main(nivel, id)
 
-def generar_reporte_movimientos():
-    messagebox.showinfo("Reporte", "Generando reporte de movimientos...")
 
-def generar_reporte_inventarios():
-    messagebox.showinfo("Reporte", "Generando reporte de inventarios...")
+def actualizar_lista(lista_aux, opcion, label):
+    lista_aux.delete(0, tk.END)
+    label.config(text=f"Se está mostrando: {opcion}")
+    if opcion == "Ventas":
+        if vnt.is_empty():
+            lista_aux.insert(tk.END, "No existe ninguna venta registrada")
+        else:
+            for venta in vnt.listaVentas:
+                if venta.getstatus() == 1:
+                    lista_aux.insert(tk.END, str(venta))
+    elif opcion == "Pedidos":
+        if vnt.is_empty():
+            lista_aux.insert(tk.END, "No existe ningún pedido registrado")
+        else:
+            for pedido in ped.listaPedidos:
+                if pedido.getstatus() == 1:
+                    lista_aux.insert(tk.END, str(pedido))
 
-# Crear la ventana principal
-root = tk.Tk()
-root.title("Generador de Reportes")
-root.geometry("300x200")
 
-# Crear y colocar los botones en la ventana
-btn_reporte_ventas = tk.Button(root, text="Generar Reporte de Ventas", command=generar_reporte_ventas)
-btn_reporte_ventas.pack(pady=10)
+def mostrar_detalles(event):
+    print("hola mundo")
 
-btn_reporte_pedidos = tk.Button(root, text="Generar Reporte de Pedidos", command=generar_reporte_pedidos)
-btn_reporte_pedidos.pack(pady=10)
 
-btn_reporte_movimientos = tk.Button(root, text="Generar Reporte de Movimientos", command=generar_reporte_movimientos)
-btn_reporte_movimientos.pack(pady=10)
+def main(nivel, id):
 
-btn_reporte_inventarios = tk.Button(root, text="Generar Reporte de Inventarios", command=generar_reporte_inventarios)
-btn_reporte_inventarios.pack(pady=10)
+    def actualizar_lista_wrapper(*args):
+        actualizar_lista(lista_registros, opcion_var.get(), label_mostrando)
 
-# Iniciar el bucle principal de la interfaz
-root.mainloop()
+    ventana = tk.Tk()
+    ventana.title("Menu de ventas")
+    ventana.geometry("800x500")
+
+    frame_izquierdo = tk.Frame(ventana)
+    frame_izquierdo.pack(side=tk.LEFT, padx=10, pady=10)
+
+    boton_menu_principal = tk.Button(frame_izquierdo, text="Nueva venta",
+                                     command=lambda: menuprincipal(ventana, nivel, id))
+    boton_menu_principal.pack(pady=5)
+
+    boton_menu_principal = tk.Button(frame_izquierdo, text="Nuevo pedido",
+                                     command=lambda: menuprincipal(ventana, nivel, id))
+    boton_menu_principal.pack(pady=5)
+
+    boton_menu_principal = tk.Button(frame_izquierdo, text="Gestionar pedido",
+                                     command=lambda: menuprincipal(ventana, nivel, id))
+    boton_menu_principal.pack(pady=5)
+
+    boton_menu_principal = tk.Button(frame_izquierdo, text="Regresar al Menú Principal",
+                                     command=lambda: menuprincipal(ventana, nivel, id))
+    boton_menu_principal.pack(pady=5)
+
+    frame_derecho = tk.Frame(ventana)
+    frame_derecho.pack(side=tk.RIGHT, padx=10, pady=10)
+
+    # Agregar el label que indica lo que se está mostrando
+    label_mostrando = tk.Label(frame_derecho, text="Se está mostrando: Ventas")
+    label_mostrando.pack(pady=5)
+
+    # Agregar un selector de opciones
+    opcion_var = tk.StringVar(ventana)
+    opcion_var.set("Ventas")  # Valor por defecto
+    opciones = ["Ventas", "Pedidos"]
+    selector_opcion = tk.OptionMenu(frame_derecho, opcion_var, *opciones, command=actualizar_lista_wrapper)
+    selector_opcion.pack(pady=5)
+
+    global lista_registros
+    lista_registros = tk.Listbox(frame_derecho, width=100, height=20)
+    lista_registros.pack()
+
+    lista_registros.bind('<<ListboxSelect>>', mostrar_detalles)
+
+
+    actualizar_lista(lista_registros, opcion_var.get(), label_mostrando)
+    ventana.mainloop()
+
+
+main(1, 2)

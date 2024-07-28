@@ -95,6 +95,7 @@ def modificarCliente(id_usu,nombre, apaterno, amaterno, telefono, correo, direcc
             guardar_en_csv(listaClientes)
             reg.crearRegistro(id_ses, "Modificar Cliente", id_usu)
 
+
 def eliminarCliente(id_usuario, id_ses):
     for cli in listaClientes:
         if cli.getid() == id_ses:
@@ -111,4 +112,6 @@ def is_empty():
     for prod in listaClientes:
         if prod.getStatus() == 1: return False
     return True
+
+
 

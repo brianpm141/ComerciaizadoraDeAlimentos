@@ -1,0 +1,2 @@
+id,fecha,hora,id_usuario,id_producto,cantidad,subtotal,metodo_pago,estado,id_cliente,fecha_entrega,status
+1,hora test,fecha test,1,"[1, 4, 9]","[1, 1, 1]",2200,efectivo,pendiente,2,Entrega test,1

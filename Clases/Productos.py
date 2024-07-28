@@ -10,6 +10,7 @@ class Producto:
         self.peso = int(peso)
         self.precio = int(precio)
         self.cantidad = int(cantidad)
+        self.enpedido = 0
         self.status = 1
 
     def __str__(self):
@@ -33,6 +34,9 @@ class Producto:
     def getcantidad(self):
         return self.cantidad
 
+    def getenpedido(self):
+        return self.enpedido
+
     def getstatus(self):
         return self.status
 
@@ -53,6 +57,9 @@ class Producto:
 
     def setcantidad(self,cantidad):
         self.cantidad = cantidad
+
+    def setenpedido(self,enpedido):
+        self.enpedido = enpedido
 
     def setstatus(self, status):
         self.status = status
