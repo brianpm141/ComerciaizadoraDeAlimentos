@@ -1,6 +1,10 @@
 import csv
 from datetime import datetime
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+import pandas as pd
 import Clases.Registros as reg
+import Clases.Productos as prod
 
 
 class Venta:
@@ -13,7 +17,6 @@ class Venta:
         self.cantidad = cantidad
         self.subtotal = subtotal
         self.metodo_pago = metodo_pago
-        self.status = 1
 
     def getid(self):
         return self.id
@@ -39,9 +42,6 @@ class Venta:
     def getid_usuario(self):
         return self.id_usuario
 
-    def getstatus(self):
-        return self.status
-
     def setid(self, id):
         self.id = int(id)
 
@@ -66,8 +66,6 @@ class Venta:
     def setid_usuario(self, id_usuario):
         self.id_usuario = int(id_usuario)
 
-    def setstatus(self, status):
-        self.status = status
 
     def __str__(self):
         return f" ID: {self.id}  -  Fecha: {self.fecha}  -  Subtotal: {self.subtotal}"
@@ -81,9 +79,8 @@ def cargar_desde_csv():
             next(reader)
             for row in reader:
                 if row:
-                    id, fecha,hora,id_usuario, id_producto, cantidad,  subtotal, metodo_pago,status = row
+                    id, fecha,hora,id_usuario, id_producto, cantidad,  subtotal, metodo_pago= row
                     ventaux = Venta(id, fecha,hora,id_usuario, id_producto, cantidad,  subtotal, metodo_pago)
-                    ventaux.setstatus(int(status))
                     lista_productos.append(ventaux)
     except FileNotFoundError:
         print(f"El archivo {'./Archivos/ventas.csv'} no se encuentra.")
@@ -99,25 +96,26 @@ def guardar_en_csv(lista_ventas):
     with open('./Archivos/ventas.csv', mode='w', newline='') as file:
         writer = csv.writer(file)
         # Escribir la cabecera del CSV
-        writer.writerow(["id", "fecha","hora","id_usuario", "id_producto", "cantidad", "subtotal", "metodo_pago","status"])
+        writer.writerow(["id", "fecha","hora","id_usuario", "id_producto", "cantidad", "subtotal", "metodo_pago"])
         for venta in lista_ventas:
             writer.writerow([venta.getid(),venta.getfecha(),venta.gethora(),venta.getid_usuario(),venta.getid_producto()
-                                ,venta.getcantidad(),venta.getsubtotal(),venta.getmetodo_pago(),venta.getstatus()])
+                                ,venta.getcantidad(),venta.getsubtotal(),venta.getmetodo_pago()])
 
 
 def is_empty():
+    if not listaVentas:
+        return True
+    else: return False
+
+
+def buscarVenta(id):
     for venta in listaVentas:
-        if venta.getstatus() == 1: return False
-    return True
-
-def buscarVenta(num):
-    for vnt in listaVentas:
-        if num == vnt.getid():
-            return vnt
-    return False
+        if venta.getid() == id:
+            return venta
+    return None
 
 
-def crearVenta(id_usuario, id_producto, cantidad,  subtotal, metodo_pago):
+def crearVenta(id_ses,id_usuario, id_producto, cantidad,  subtotal, metodo_pago):
     now = datetime.now()
     id = len(listaVentas) + 1
     fecha = now.strftime("%Y-%m-%d")
@@ -125,14 +123,55 @@ def crearVenta(id_usuario, id_producto, cantidad,  subtotal, metodo_pago):
     clnaux = Venta(id, fecha,hora,id_usuario, id_producto, cantidad,  subtotal, metodo_pago)
     listaVentas.append(clnaux)
     guardar_en_csv(listaVentas)
-    reg.crearRegistro(id_usuario, "Nueva venta", id)
-
-def buscarVenta(id):
-    for venta in listaVentas:
-        if venta.getid() == id:
-            if venta.getstatus() == 1:
-                return venta
-            else: return None
-    return None
+    reg.crearRegistro(id_ses, "Nueva venta", id)
+    for idaux,cantaux in zip(id_producto, cantidad):
+        prod.restaInventario(idaux, cantaux)
 
 
+
+def generar_pdf(ruta_archivo):
+    c = canvas.Canvas(ruta_archivo, pagesize=letter)
+    width, height = letter
+    x = 50
+    y = height - 50
+    line_height = 14
+    c.setFont("Helvetica-Bold", 16)
+    c.drawString(x, y, "Datos de la Lista")
+    y -= 30
+    c.setFont("Helvetica", 12)
+    for item in listaVentas:
+        c.drawString(x, y, str(item))
+        y -= line_height
+
+        # Si se llega al final de la página, agregar una nueva
+        if y < 50:
+            c.showPage()
+            y = height - 50
+            c.setFont("Helvetica", 12)
+    c.save()
+
+def generarcsv(ruta):
+    with open(ruta , mode='w', newline='') as file:
+        writer = csv.writer(file)
+        # Escribir la cabecera del CSV
+        writer.writerow(["id", "fecha", "id_usuario", "id_producto", "cantidad", "subtotal", "metodo_pago"])
+        for venta in listaVentas:
+            writer.writerow(
+                [venta.getid(), venta.getfecha(), venta.getid_usuario(), venta.getid_producto()
+                    , venta.getcantidad(), venta.getsubtotal(), venta.getmetodo_pago()])
+
+def gengerarexel(ruta):
+    # Definir las columnas del DataFrame
+    columnas = ["id", "fecha","hora","id_usuario", "id_producto", "cantidad", "subtotal", "metodo_pago"]
+
+    # Extraer los datos de los objetos Pedido
+    datos = [
+        [pedido.getid(), pedido.getfecha(), pedido.gethora(), pedido.getid_usuario(), pedido.getid_producto(),
+         pedido.getcantidad(), pedido.getsubtotal(), pedido.getmetodo_pago()]
+        for pedido in listaVentas
+    ]
+    # Crear un DataFrame a partir de la lista de datos
+    df = pd.DataFrame(datos, columns=columnas)
+
+    # Guardar el DataFrame en un archivo Excel
+    df.to_excel(ruta, index=False, engine='openpyxl')

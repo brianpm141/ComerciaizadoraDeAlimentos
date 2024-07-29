@@ -1,2 +1,3 @@
-id,fecha,hora,id_usuario,id_producto,cantidad,subtotal,metodo_pago,estado,id_cliente,fecha_entrega,status
-1,hora test,fecha test,1,"[1, 4, 9]","[1, 1, 1]",2200,efectivo,pendiente,2,Entrega test,1
+id,fecha,hora,id_usuario,id_producto,cantidad,subtotal,metodo_pago,estado,id_cliente,fecha_entrega
+1,hora test,fecha test,1,"[1, 4, 9]","[1, 1, 1]",2200,efectivo,pendiente,2,Entrega test
+2,2024-07-28,23:54:48,1,[5],[5],[500.0],Tarjeta,Pedido,1,2024-07-31

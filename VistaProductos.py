@@ -262,7 +262,7 @@ def main(nivel,id):
 
     ventana = tk.Tk()
     ventana.title("Gestión de Productos")
-    ventana.geometry("600x400")
+    ventana.geometry("650x400")
 
     frame_izquierdo = tk.Frame(ventana)
     frame_izquierdo.pack(side=tk.LEFT, padx=10, pady=10)

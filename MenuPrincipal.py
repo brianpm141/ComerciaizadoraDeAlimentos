@@ -1,28 +1,42 @@
 import tkinter as tk
 from tkinter import messagebox
+from tkinter import Tk
+from tkinter.filedialog import asksaveasfilename
+
 
 def menu_ventas(nivel, ventana,id):
-    ventana.destroy()
+    import Clases.Productos as prod
+    if prod.is_empty():
+        messagebox.showerror("Cuidado...","No se pueden realizar ventas sin ningun producto registrado")
+    else:
+        ventana.destroy()
+        import VistaVentas as vv
+        vv.main(nivel, id)
+
 
 def menu_inventarios(nivel, ventana,id):
     ventana.destroy()
     import VistaProductos as vp
     vp.main(nivel,id)
 
+
 def generacion_reportes(nivel,ventana, id):
     ventana.destroy()
     import VistaReportes as vrp
     vrp.main(nivel,id)
+
 
 def gestion_usuarios(nivel,ventana, id):
     ventana.destroy()
     import VistaUsuarios as vu
     vu.main(nivel, id)
 
+
 def gestion_clientes(nivel,ventana, id):
     ventana.destroy()
     import VistaClientes as vc
     vc.main(nivel, id)
+
 
 def registro_actividades(nivel, ventana, id):
     ventana.destroy()
@@ -36,9 +50,11 @@ def cerrar_sesion(ventana):
     ventana.destroy()
     lg.main()
 
+
 def salir(ventana):
     messagebox.showinfo("Adios", "Saliendo....")
     ventana.destroy()
+
 
 def main(nivel,id):
     ventana = tk.Tk()

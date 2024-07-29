@@ -49,3 +49,17 @@ ID Registro,Fecha,Hora,ID Usuario,Tipo Movimiento,ID Movimiento
 48,2024-07-26,18:16:55,1,Modificar Cliente,2
 49,2024-07-26,18:28:16,1,Modificar Cliente,2
 50,2024-07-26,18:34:18,1,Modificar Cliente,2
+51,2024-07-28,20:05:00,1,Nueva venta,2
+52,2024-07-28,20:06:26,1,Nueva venta,3
+53,2024-07-28,20:19:24,1,Nueva venta,4
+54,2024-07-28,20:20:10,1,Nueva venta,5
+55,2024-07-28,20:20:49,1,Nueva venta,6
+56,2024-07-28,20:26:41,1,Nueva venta,7
+57,2024-07-28,20:31:05,1,Nueva venta,8
+58,2024-07-28,20:32:19,1,Nueva venta,9
+59,2024-07-28,20:43:48,2,Nueva venta,10
+60,2024-07-28,20:44:09,2,Nueva venta,11
+61,2024-07-28,20:46:02,2,Nueva venta,12
+62,2024-07-28,21:00:26,2,Nueva venta,13
+63,2024-07-28,21:01:42,1,Nueva venta,14
+64,2024-07-28,23:54:48,1,Nuevo Pedido,2

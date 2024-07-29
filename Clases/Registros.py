@@ -1,6 +1,8 @@
 from datetime import datetime
 import csv
-
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+import pandas as pd
 
 class Registro:
     def __init__(self,id_registro,fecha,hora,id_usuario,tipo_mov,id_mov):
@@ -12,7 +14,7 @@ class Registro:
         self.id_mov = int(id_mov)
 
     def __str__(self):
-        return f" id: {self.id_registro} -- Fecha:{self.fecha} -- id_usuario:{self.id_usuario} -- Movimiento: {self.tipo_mov} "
+        return f" Id: {self.id_registro} -- Fecha:{self.fecha} -- Id_usuario:{self.id_usuario} -- Movimiento: {self.tipo_mov}  --  Id_item:{self.id_mov} "
 
 
     def getid_registro(self):
@@ -92,3 +94,44 @@ def guardar_registros_en_csv():
         for registro in lista_registros:
             writer.writerow([registro.id_registro, registro.fecha, registro.hora, registro.id_usuario, registro.tipo_mov, registro.id_mov])
 
+def generar_pdf(ruta_archivo):
+    c = canvas.Canvas(ruta_archivo, pagesize=letter)
+    width, height = letter
+    x = 50
+    y = height - 50
+    line_height = 14
+    c.setFont("Helvetica-Bold", 16)
+    c.drawString(x, y, "Datos de la Lista")
+    y -= 30
+    c.setFont("Helvetica", 12)
+    for item in lista_registros:
+        c.drawString(x, y, str(item))
+        y -= line_height
+        if y < 50:
+            c.showPage()
+            y = height - 50
+            c.setFont("Helvetica", 12)
+    c.save()
+
+def generarcsv(ruta):
+    with open(ruta, mode='w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(["ID Registro", "Fecha", "ID Usuario", "Tipo Movimiento", "ID Movimiento"])
+        for registro in lista_registros:
+            writer.writerow([registro.id_registro, registro.fecha, registro.id_usuario, registro.tipo_mov, registro.id_mov])
+
+
+def generarexel(ruta):
+    # Definir las columnas del DataFrame
+    columnas = ["ID Registro", "Fecha", "ID Usuario", "Tipo Movimiento", "ID Movimiento"]
+
+    # Extraer los datos de los objetos Pedido
+    datos = [
+        [registro.id_registro, registro.fecha, registro.id_usuario, registro.tipo_mov, registro.id_mov]
+        for registro in lista_registros
+    ]
+    # Crear un DataFrame a partir de la lista de datos
+    df = pd.DataFrame(datos, columns=columnas)
+
+    # Guardar el DataFrame en un archivo Excel
+    df.to_excel(ruta, index=False, engine='openpyxl')
