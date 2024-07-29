@@ -36,6 +36,11 @@ class Pedido(Venta):
     def __str__(self):
         return f" ID: {self.id}  -  Fecha: {self.fecha}  -  Subtotal: {self.subtotal}  -  Estado: {self.estado}  -  Cliente: {self.id_cliente}  -  Fecha de Entrega: {self.fecha_entrega}"
 
+    def actPedido(self,estado,id_ses):
+        self.setestado(estado)
+        guardar_en_csv(listaPedidos)
+
+
 def cargar_desde_csv():
     lista_productos = []
     try:
@@ -73,6 +78,7 @@ def is_empty():
         if pedido.getstatus() == 1: return False
     return True
 
+
 def buscarVenta(num):
     for vnt in listaPedidos:
         if num == vnt.getid():
@@ -87,13 +93,22 @@ def crearPedido(id_usuario, id_producto, cantidad,  subtotal, metodo_pago,estado
     hora = now.strftime("%H:%M:%S")
     clnaux = Pedido(id, fecha,hora,id_usuario, id_producto, cantidad,  subtotal, metodo_pago,estado,
                     id_cliente, fecha_entrega)
+    for idaux,cantaux in zip(id_producto, cantidad):
+        prod.sumaPedidos(idaux, cantaux)
     listaPedidos.append(clnaux)
     guardar_en_csv(listaPedidos)
     reg.crearRegistro(id_usuario, "Nuevo Pedido", id)
 
 
-def actualizarPedido():
-    print("set")
+def buscarPedido(valor):
+    for pedido in listaPedidos:
+        print(pedido.getid())
+        print(valor)
+        if pedido.getid() == valor:
+            print("kk")
+            if not pedido.getestado() == "Completado" or not pedido.getestado() == "Cancelado":
+                return pedido
+    return False
 
 
 def generar_pdf(ruta_archivo):
@@ -143,3 +158,4 @@ def gengerarexel(ruta):
 
     # Guardar el DataFrame en un archivo Excel
     df.to_excel(ruta, index=False, engine='openpyxl')
+

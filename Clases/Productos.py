@@ -139,6 +139,11 @@ def buscar_producto(id):
             else: return None
     return None
 
+
+def restarPedios():
+    print("resta")
+
+
 def guardar_en_csv(lista_productos):
     with open('./Archivos/productos.csv', mode='w', newline='') as file:
         writer = csv.writer(file)

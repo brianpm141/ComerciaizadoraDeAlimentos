@@ -49,7 +49,8 @@ def nuevaVenta(id, actualizar_lista_callback):
         # Lista de productos
         lista = tk.Listbox(nueva_ventana, width=100)
         for i, producto in enumerate(listaProductos):
-            lista.insert(i, str(producto))
+            if producto.getstatus() == 1:
+                lista.insert(i, str(producto))
         lista.pack(pady=5)
 
         # Cuadro de texto para cantidad
@@ -207,7 +208,8 @@ def nuevoPedido(id, actualizar_lista_callback):
         # Lista de productos
         lista = tk.Listbox(nueva_ventana, width=100)
         for i, producto in enumerate(listaProductos):
-            lista.insert(i, str(producto))
+            if producto.getstatus() == 1:
+                lista.insert(i, str(producto))
         lista.pack(pady=5)
 
         # Cuadro de texto para cantidad
@@ -286,7 +288,7 @@ def nuevoPedido(id, actualizar_lista_callback):
                 for producto, detalles in carrito.items():
                     id_producto.append(detalles['id'])
                     cantidad.append(detalles['cantidad'])
-                ped.crearPedido(id, id_producto, cantidad,  subtotal, metodo_pago,"Pedido", id_cliente, fecha)
+                ped.crearPedido(id, id_producto, cantidad,  subtotal, metodo_pago,"Pendiente", id_cliente, fecha)
                 messagebox.showinfo("Confirmar", "Pedido confirmado")
                 root2.destroy()
                 root.destroy()
@@ -365,6 +367,90 @@ def nuevoPedido(id, actualizar_lista_callback):
     root.mainloop()
 
 
+def compNuevaventa(id, actualizar_lista_callback):
+    if prod.is_empty():
+        messagebox.showerror("Advertencia","No hay productos registrados, imposible crear pedido")
+    else:
+        nuevaVenta(id, actualizar_lista_callback)
+
+
+def compNuevopedido(id, actualizar_lista_callback):
+    if cli.is_empty():
+        messagebox.showerror("Advertencia", "No hay clientes registrados, imposible crear pedido")
+    elif prod.is_empty():
+        messagebox.showerror("Advertencia","No hay productos registrados, imposible crear pedido")
+    else:
+        nuevoPedido(id, actualizar_lista_callback)
+
+
+def modPedido(id_ses):
+    def mostrar_estado_pedido():
+        id_pedido = entry_id.get()
+        id_pedido = int(id_pedido)
+        aux = ped.buscarPedido(id_pedido)
+        if not id_pedido:
+            messagebox.showerror("Error", "Ingrese el ID del pedido")
+        elif aux != False:
+            popup.withdraw()
+
+            def guardar_estado():
+                estado_seleccionado = estado_var.get()
+                messagebox.showinfo("Estado Pedido", f"Pedido con ID: {id_pedido} ahora está {estado_seleccionado}")
+                aux.actPedido(estado_seleccionado, id_ses)
+                estado_popup.destroy()
+                popup.destroy()
+
+            estado_popup = tk.Toplevel(root5)
+            estado_popup.title("Estado del Pedido")
+
+            label_estado = tk.Label(estado_popup, text=f"Seleccione el estado para el pedido ID: {id_pedido}")
+            label_estado.pack(pady=10)
+
+            estado_var = tk.StringVar(estado_popup)
+            estado_var.set("Pendiente")  # Valor predeterminado
+
+            opciones_estado = ["Pendiente", "Completado", "Cancelado"]
+            dropdown = tk.OptionMenu(estado_popup, estado_var, *opciones_estado)
+            dropdown.pack(pady=5)
+
+            btn_guardar = tk.Button(estado_popup, text="Guardar", command=guardar_estado)
+            btn_guardar.pack(pady=5)
+        else:
+            messagebox.showerror("Error", "El pedido ingresado no existe")
+
+    def cancelar():
+        popup.destroy()
+
+    # Crear la ventana principal
+    root5 = tk.Tk()
+    root5.withdraw()  # Ocultar la ventana principal
+
+    # Crear la ventana emergente inicial
+    popup = tk.Toplevel(root5)
+    popup.title("Modificar Pedido")
+
+    # Mensaje
+    label = tk.Label(popup, text="Ingrese el ID del pedido:")
+    label.pack(pady=10)
+
+    # Caja de texto
+    entry_id = tk.Entry(popup)
+    entry_id.pack(pady=5)
+
+    # Botones
+    frame_buttons = tk.Frame(popup)
+    frame_buttons.pack(pady=10)
+
+    btn_modificar = tk.Button(frame_buttons, text="Modificar",command=mostrar_estado_pedido)
+    btn_modificar.grid(row=0, column=0, padx=5)
+
+    btn_cancelar = tk.Button(frame_buttons, text="Cancelar", command=cancelar)
+    btn_cancelar.grid(row=0, column=1, padx=5)
+
+    # Ejecutar la aplicación
+    popup.mainloop()
+
+
 def main(nivel, id):
     def actualizar_lista_wrapper(*args):
         actualizar_lista(lista_registros, opcion_var.get(), label_mostrando)
@@ -377,15 +463,15 @@ def main(nivel, id):
     frame_izquierdo.pack(side=tk.LEFT, padx=10, pady=10)
 
     boton_menu_principal = tk.Button(frame_izquierdo, text="Nueva venta",
-                                     command=lambda: nuevaVenta(id, actualizar_lista_wrapper))
+                                     command=lambda: compNuevaventa(id, actualizar_lista_wrapper))
     boton_menu_principal.pack(pady=5)
 
     boton_menu_principal = tk.Button(frame_izquierdo, text="Nuevo pedido",
-                                     command=lambda: nuevoPedido(id, actualizar_lista_wrapper))
+                                     command=lambda: compNuevopedido(id, actualizar_lista_wrapper))
     boton_menu_principal.pack(pady=5)
 
     boton_menu_principal = tk.Button(frame_izquierdo, text="Gestionar pedido",
-                                     command=lambda: menuprincipal(ventana, nivel, id))
+                                     command=lambda:modPedido(id))
     boton_menu_principal.pack(pady=5)
 
     boton_menu_principal = tk.Button(frame_izquierdo, text="Regresar al Menú Principal",
@@ -414,3 +500,5 @@ def main(nivel, id):
 
     actualizar_lista(lista_registros, opcion_var.get(), label_mostrando)
     ventana.mainloop()
+
+main(1,1)
