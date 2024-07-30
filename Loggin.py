@@ -35,7 +35,7 @@ def main():
     entry_psw.pack(pady=5)
 
 
-    btn_ac = tk.Button(ventana, text="Accept",command=lambda:login(entry_usuario,entry_psw,ventana))
+    btn_ac = tk.Button(ventana, text="Ingresar",command=lambda:login(entry_usuario,entry_psw,ventana))
     btn_ac.pack(pady=20)
 
     ventana.mainloop()
