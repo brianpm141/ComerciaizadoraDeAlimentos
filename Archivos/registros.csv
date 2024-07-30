@@ -63,3 +63,6 @@ ID Registro,Fecha,Hora,ID Usuario,Tipo Movimiento,ID Movimiento
 62,2024-07-28,21:00:26,2,Nueva venta,13
 63,2024-07-28,21:01:42,1,Nueva venta,14
 64,2024-07-28,23:54:48,1,Nuevo Pedido,2
+65,2024-07-29,19:16:11,1,Creacion de Cliente,3
+66,2024-07-29,19:16:16,3,Eliminar Cliente,1
+67,2024-07-29,19:35:18,1,Creacion de usuario,8

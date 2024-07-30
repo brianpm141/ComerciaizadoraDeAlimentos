@@ -93,8 +93,14 @@ def on_excel(clase_reporte,ventana):
         ventana.destroy()
 
 
+def graficaVentas():
+    ruta = seleccionar_ruta_guardado(2)
+    vnt.generar_grafica_ventas_diarias(ruta)
+
+
 def on_cancel(root2):
     root2.destroy()
+
 
 def selectorTipo(clase_reporte):
     root2 = tk.Tk()
@@ -110,11 +116,13 @@ def selectorTipo(clase_reporte):
     btn_excel = tk.Button(root2, text="Excel", command=lambda:on_excel(clase_reporte,root2))
     btn_excel.pack(padx=10, pady=5)
 
+
     btn_cancel = tk.Button(root2, text="Salir", command=lambda:on_cancel(root2))
     btn_cancel.pack(padx=10, pady=5)
 
-    # Ejecutar el bucle principal de la ventana
+
     root2.mainloop()
+
 
 def salir(ventana,nivel,id):
     ventana.destroy()
@@ -126,7 +134,7 @@ def main(nivel,id):
     # Crear la ventana principal
     root = tk.Tk()
     root.title("Generador de Reportes")
-    root.geometry("300x250")
+    root.geometry("300x300")
 
     # Crear y colocar los botones en la ventana
     btn_reporte_ventas = tk.Button(root, text="Generar Reporte de Ventas", command=lambda:selectorTipo(1))
@@ -140,6 +148,9 @@ def main(nivel,id):
 
     btn_reporte_movimientos = tk.Button(root, text="Generar Reporte de Movimientos", command=lambda:selectorTipo(4))
     btn_reporte_movimientos.pack(pady=10)
+
+    btn_graf = tk.Button(root, text="Generar Grafica de ventas", command=graficaVentas)
+    btn_graf.pack(pady=10)
 
     btnsalir = tk.Button(root, text="Salir al menu principal", command=lambda:salir(root,nivel,id))
     btnsalir.pack(pady=10)

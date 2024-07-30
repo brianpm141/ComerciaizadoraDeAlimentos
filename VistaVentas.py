@@ -500,5 +500,3 @@ def main(nivel, id):
 
     actualizar_lista(lista_registros, opcion_var.get(), label_mostrando)
     ventana.mainloop()
-
-main(1,1)

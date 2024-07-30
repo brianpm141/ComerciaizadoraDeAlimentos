@@ -2,11 +2,11 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import simpledialog
 from Clases import Clientes as cln  # Asegúrate de importar la clase adecuada
+import re  # Importa el módulo de expresiones regulares
 
 def crearCliente(id_usuario, actualizar_lista_callback):
     def salir():
         root.destroy()
-
 
     def completar():
         nombre = entry_nombre.get()
@@ -16,7 +16,6 @@ def crearCliente(id_usuario, actualizar_lista_callback):
         correo = entry_correo.get()
         direccion = entry_direccion.get()
 
-
         def es_entero(valor):
             try:
                 int(valor)
@@ -24,12 +23,26 @@ def crearCliente(id_usuario, actualizar_lista_callback):
             except ValueError:
                 return False
 
+        def es_correo_valido(correo):
+            patron = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+            return re.match(patron, correo) is not None
+
         if not nombre or not apaterno or not amaterno or not telefono or not correo or not direccion:
             messagebox.showerror("Error", "¡Introduce todos los campos!")
+        elif len(nombre) > 24:
+            messagebox.showerror("Error", "¡El nombre no puede tener más de 24 caracteres!")
+        elif len(apaterno) > 24:
+            messagebox.showerror("Error", "¡El apellido paterno no puede tener más de 24 caracteres!")
+        elif len(amaterno) > 24:
+            messagebox.showerror("Error", "¡El apellido materno no puede tener más de 24 caracteres!")
         elif not es_entero(telefono) or len(telefono) != 10:
             messagebox.showerror("Error", "¡Introduce un número de teléfono válido de 10 dígitos!")
+        elif not es_correo_valido(correo):
+            messagebox.showerror("Error", "¡Introduce un correo electrónico válido!")
+        elif len(direccion) > 180:
+            messagebox.showerror("Error", "¡La dirección no puede tener más de 180 caracteres!")
         else:
-            cln.crearCliente(nombre, apaterno, amaterno, telefono, correo, direccion,id_usuario)
+            cln.crearCliente(nombre, apaterno, amaterno, telefono, correo, direccion, id_usuario)
             actualizar_lista_callback()
             root.destroy()
 
@@ -104,12 +117,26 @@ def editarCliente(id, actualizar_lista_callback):
                     except ValueError:
                         return False
 
+                def es_correo_valido(correo):
+                    patron = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+                    return re.match(patron, correo) is not None
+
                 if not nombre or not apaterno or not amaterno or not telefono or not correo or not direccion:
                     messagebox.showerror("Error", "¡Introduce todos los campos!")
+                elif len(nombre) > 24:
+                    messagebox.showerror("Error", "¡El nombre no puede tener más de 24 caracteres!")
+                elif len(apaterno) > 24:
+                    messagebox.showerror("Error", "¡El apellido paterno no puede tener más de 24 caracteres!")
+                elif len(amaterno) > 24:
+                    messagebox.showerror("Error", "¡El apellido materno no puede tener más de 24 caracteres!")
                 elif not es_entero(telefono) or len(telefono) != 10:
                     messagebox.showerror("Error", "¡Introduce un número de teléfono válido de 10 dígitos!")
+                elif not es_correo_valido(correo):
+                    messagebox.showerror("Error", "¡Introduce un correo electrónico válido!")
+                elif len(direccion) > 180:
+                    messagebox.showerror("Error", "¡La dirección no puede tener más de 180 caracteres!")
                 else:
-                    cln.modificarCliente(id_mod,nombre, apaterno, amaterno, telefono, correo, direccion,id)
+                    cln.modificarCliente(id_mod, nombre, apaterno, amaterno, telefono, correo, direccion, id)
                     messagebox.showinfo("Exito", "Usuario modificado exitosamente.")
                     root2.destroy()
                     actualizar_lista_callback()
@@ -152,47 +179,24 @@ def editarCliente(id, actualizar_lista_callback):
 
             btn_salir = tk.Button(root2, text="Cancelar", command=salir)
             btn_salir.grid(row=9, column=1, padx=10, pady=10)
-            break
 
-    root.destroy()
+            break  # Salir del bucle si se encontró el cliente
 
-def eliminarCliente(id, actualizar_lista_wrapper):
+def eliminarCliente(id, actualizar_lista_callback):
     root = tk.Tk()
     root.withdraw()  # Ocultar la ventana principal
 
     while True:
-        numero = simpledialog.askinteger("Entrada", "Ingrese el ID del Cliente a Eliminar:")
+        numero = simpledialog.askinteger("Entrada", "Ingrese el ID del cliente a eliminar:")
         if numero is None:
             break
         elif not cln.buscarClienteid(numero):  # Aquí puedes agregar cualquier condición de validación que necesites
-            messagebox.showerror("Error", "El Cliente buscado no existe.")
+            messagebox.showerror("Error", "El cliente solicitado no existe.")
         else:
             cln.eliminarCliente(numero, id)
-            actualizar_lista_wrapper()
+            messagebox.showinfo("Exito", "Usuario eliminado exitosamente.")
+            actualizar_lista_callback()
             break
-    root.destroy()
-
-
-def menuprincipal(ventana, nivel, id):
-    ventana.destroy()
-    import MenuPrincipal as mp
-    mp.main(nivel, id)
-
-def mostrar_detalles(event):
-    seleccion = lista_clientes.curselection()
-    if seleccion:
-        indice = seleccion[0]
-        detalles = cln.listaClientes[indice]
-        detalles_str = (
-            f"Id: {detalles.getid()}\n"
-            f"Nombre: {detalles.getnombre()}\n"
-            f"Apellido Paterno: {detalles.getapaterno()}\n"
-            f"Apellido Materno: {detalles.getamaterno()}\n"
-            f"Teléfono: {detalles.gettelefono()}\n"
-            f"Correo: {detalles.getcorreo()}\n"
-            f"Dirección: {detalles.getdireccion()}\n"
-        )
-        messagebox.showinfo("Detalles del Usuario", detalles_str)
 
 def actualizar_lista(lista_usuarios):
     lista_usuarios.delete(0, tk.END)
@@ -202,6 +206,12 @@ def actualizar_lista(lista_usuarios):
         for registro in cln.listaClientes:
             if registro.getStatus() == 1:
                 lista_usuarios.insert(tk.END, str(registro))
+
+
+def menuprincipal(ventana, nivel, id):
+    ventana.destroy()
+    import MenuPrincipal as mp
+    mp.main(nivel, id)
 
 
 def main(nivel, id):
@@ -237,8 +247,6 @@ def main(nivel, id):
     global lista_clientes
     lista_clientes = tk.Listbox(frame_derecho, width=80, height=20)
     lista_clientes.pack()
-    lista_clientes.bind('<<ListboxSelect>>', mostrar_detalles)
 
     actualizar_lista(lista_clientes)
     ventana.mainloop()
-
