@@ -214,6 +214,7 @@ def editarUsuario(id, actualizar_lista_callback):
 
     root.destroy()
 
+
 def eliminarUsuario(id, actualizar_lista_wrapper):
     root = tk.Tk()
     root.withdraw()  # Ocultar la ventana principal
@@ -222,13 +223,14 @@ def eliminarUsuario(id, actualizar_lista_wrapper):
         numero = simpledialog.askinteger("Entrada", "Ingrese el ID del usuario a eliminar:")
         if numero is None:
             break
-        elif not usu.buscarUsuarioid(numero):  # Aquí puedes agregar cualquier condición de validación que necesites
+        elif usu.buscarUsuarioid(numero) == None:  # Aquí puedes agregar cualquier condición de validación que necesites
             messagebox.showerror("Error", "El usuario buscado no existe.")
         else:
             usu.eliminarUsuario(numero, id)
             actualizar_lista_wrapper()
             break
     root.destroy()
+
 
 def menuprincipal(ventana, nivel, id):
     ventana.destroy()
@@ -245,12 +247,13 @@ def actualizar_lista(lista_usuarios):
             if registro.getstatus() == 1:
                 lista_usuarios.insert(tk.END, str(registro))
 
+
 def main(nivel, id):
     def actualizar_lista_wrapper():
         actualizar_lista(lista_usuarios)
 
     ventana = tk.Tk()
-    ventana.title("Registro de Actividades")
+    ventana.title("Registro de usuarios")
     ventana.geometry("600x400")
 
     frame_izquierdo = tk.Frame(ventana)
@@ -281,5 +284,3 @@ def main(nivel, id):
 
     actualizar_lista(lista_usuarios)
     ventana.mainloop()
-
-main(1,1)

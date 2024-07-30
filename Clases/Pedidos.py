@@ -93,8 +93,8 @@ def crearPedido(id_usuario, id_producto, cantidad,  subtotal, metodo_pago,estado
     hora = now.strftime("%H:%M:%S")
     clnaux = Pedido(id, fecha,hora,id_usuario, id_producto, cantidad,  subtotal, metodo_pago,estado,
                     id_cliente, fecha_entrega)
-    for idaux,cantaux in zip(id_producto, cantidad):
-        prod.sumaPedidos(idaux, cantaux)
+    #for idaux,cantaux in zip(id_producto, cantidad):
+    #    prod.sumaPedidos(idaux, cantaux)
     listaPedidos.append(clnaux)
     guardar_en_csv(listaPedidos)
     reg.crearRegistro(id_usuario, "Nuevo Pedido", id)

@@ -275,24 +275,24 @@ def nuevoPedido(id, actualizar_lista_callback):
                 if not id_cliente:
                     messagebox.showerror("Error", "Ingrese el ID del cliente")
                     return
-                if not fecha:
+                elif not fecha:
                     messagebox.showerror("Error", "Ingrese la fecha")
                     return
-                if not cli.buscarClienteid(id_cliente):
+                elif cli.buscarClienteid(id_cliente):
                     messagebox.showerror("Error", "El cliente no exite")
                     return
-
-                root2.lift()
-                id_producto = []
-                cantidad = []
-                for producto, detalles in carrito.items():
-                    id_producto.append(detalles['id'])
-                    cantidad.append(detalles['cantidad'])
-                ped.crearPedido(id, id_producto, cantidad,  subtotal, metodo_pago,"Pendiente", id_cliente, fecha)
-                messagebox.showinfo("Confirmar", "Pedido confirmado")
-                root2.destroy()
-                root.destroy()
-                actualizar_lista_callback()  # Llamar a la función para actualizar la lista
+                else:
+                    root2.lift()
+                    id_producto = []
+                    cantidad = []
+                    for producto, detalles in carrito.items():
+                        id_producto.append(detalles['id'])
+                        cantidad.append(detalles['cantidad'])
+                    ped.crearPedido(id, id_producto, cantidad,  subtotal, metodo_pago,"Pendiente", id_cliente, fecha)
+                    messagebox.showinfo("Confirmar", "Pedido confirmado")
+                    root2.destroy()
+                    root.destroy()
+                    actualizar_lista_callback()  # Llamar a la función para actualizar la lista
 
             def cancelar():
                 root2.destroy()

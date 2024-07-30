@@ -80,7 +80,7 @@ def buscarUsuario(usuario):
 
 def buscarUsuarioid(num):
     for usu in listaUsuaros:
-        if usu.getid() == id:
+        if usu.getid() == num:
             if usu.getstatus() == 1:
                 return usu
             else:
@@ -140,11 +140,11 @@ def modificarUsuario(id_usu,nombre, apaterno, amaterno, telefono, usuario, psw, 
 
 def eliminarUsuario(id_usuario, id_ses):
     for product in listaUsuaros:
-        if product.getid() == id_ses:
+        if product.getid() == id_usuario:
             if product.getstatus() == 1:
                 product.setstatus(0)
                 guardar_en_csv(listaUsuaros)
-                reg.crearRegistro(id_usuario, "Eliminar Usuario", id_ses)
+                reg.crearRegistro(id_ses, "Eliminar Usuario", id_usuario)
             else:
                 return False
             return True

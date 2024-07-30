@@ -66,3 +66,12 @@ ID Registro,Fecha,Hora,ID Usuario,Tipo Movimiento,ID Movimiento
 65,2024-07-29,19:16:11,1,Creacion de Cliente,3
 66,2024-07-29,19:16:16,3,Eliminar Cliente,1
 67,2024-07-29,19:35:18,1,Creacion de usuario,8
+68,2024-07-30,07:49:30,1,Nueva venta,15
+69,2024-07-30,08:21:55,1,Nuevo Pedido,3
+70,2024-07-30,09:56:11,3,Eliminar Cliente,1
+71,2024-07-30,09:58:25,1,Modificar Cliente,3
+72,2024-07-30,09:58:31,1,Eliminar Cliente,3
+73,2024-07-30,09:59:21,1,Modificar Producto,3
+74,2024-07-30,09:59:27,1,Eliminar Producto,1
+75,2024-07-30,10:04:12,8,Eliminar Usuario,1
+76,2024-07-30,10:05:47,1,Eliminar Usuario,8

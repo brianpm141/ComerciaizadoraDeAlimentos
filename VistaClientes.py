@@ -87,7 +87,7 @@ def editarCliente(id, actualizar_lista_callback):
         numero = simpledialog.askinteger("Entrada", "Ingrese el ID del cliente a modificar:")
         if numero is None:
             break
-        elif not cln.buscarClienteid(numero):  # Aquí puedes agregar cualquier condición de validación que necesites
+        elif cln.buscarClienteid(numero) == False:  # Aquí puedes agregar cualquier condición de validación que necesites
             messagebox.showerror("Error", "El cliente solicitado no existe.")
         else:
             dato = cln.buscarClienteid(numero)
@@ -190,7 +190,7 @@ def eliminarCliente(id, actualizar_lista_callback):
         numero = simpledialog.askinteger("Entrada", "Ingrese el ID del cliente a eliminar:")
         if numero is None:
             break
-        elif not cln.buscarClienteid(numero):  # Aquí puedes agregar cualquier condición de validación que necesites
+        elif cln.buscarClienteid(numero) == False:
             messagebox.showerror("Error", "El cliente solicitado no existe.")
         else:
             cln.eliminarCliente(numero, id)
