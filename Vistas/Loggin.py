@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 from Clases import Usuarios as usr
-import MenuPrincipal as mp
+import Vistas.MenuPrincipal as mp
 
 
 def login(entry_usuario,entry_psw,ventana):

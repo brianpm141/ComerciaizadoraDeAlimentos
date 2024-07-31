@@ -1,7 +1,5 @@
 import tkinter as tk
 from tkinter import messagebox
-from tkinter import Tk
-from tkinter.filedialog import asksaveasfilename
 
 
 def menu_ventas(nivel, ventana,id):
@@ -10,42 +8,42 @@ def menu_ventas(nivel, ventana,id):
         messagebox.showerror("Cuidado...","No se pueden realizar ventas sin ningun producto registrado")
     else:
         ventana.destroy()
-        import VistaVentas as vv
+        import Vistas.VistaVentas as vv
         vv.main(nivel, id)
 
 
 def menu_inventarios(nivel, ventana,id):
     ventana.destroy()
-    import VistaProductos as vp
+    import Vistas.VistaProductos as vp
     vp.main(nivel,id)
 
 
 def generacion_reportes(nivel,ventana, id):
     ventana.destroy()
-    import VistaReportes as vrp
+    import Vistas.VistaReportes as vrp
     vrp.main(nivel,id)
 
 
 def gestion_usuarios(nivel,ventana, id):
     ventana.destroy()
-    import VistaUsuarios as vu
+    import Vistas.VistaUsuarios as vu
     vu.main(nivel, id)
 
 
 def gestion_clientes(nivel,ventana, id):
     ventana.destroy()
-    import VistaClientes as vc
+    import Vistas.VistaClientes as vc
     vc.main(nivel, id)
 
 
 def registro_actividades(nivel, ventana, id):
     ventana.destroy()
-    import VistaRegistros as vr
+    import Vistas.VistaRegistros as vr
     vr.main(nivel, id)
 
 
 def cerrar_sesion(ventana):
-    import Loggin as lg  # Importación dentro de la función para evitar importación circular
+    import Vistas.Loggin as lg
     messagebox.showinfo("Cerrar Sesión", "Has cerrado sesión.")
     ventana.destroy()
     lg.main()

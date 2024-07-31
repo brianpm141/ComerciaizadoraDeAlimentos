@@ -234,7 +234,7 @@ def eliminarUsuario(id, actualizar_lista_wrapper):
 
 def menuprincipal(ventana, nivel, id):
     ventana.destroy()
-    import MenuPrincipal as mp
+    import Vistas.MenuPrincipal as mp
     mp.main(nivel, id)
 
 

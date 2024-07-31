@@ -210,7 +210,7 @@ def actualizar_lista(lista_usuarios):
 
 def menuprincipal(ventana, nivel, id):
     ventana.destroy()
-    import MenuPrincipal as mp
+    import Vistas.MenuPrincipal as mp
     mp.main(nivel, id)
 
 

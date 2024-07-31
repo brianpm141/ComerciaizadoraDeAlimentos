@@ -126,7 +126,7 @@ def selectorTipo(clase_reporte):
 
 def salir(ventana,nivel,id):
     ventana.destroy()
-    import MenuPrincipal as mp
+    import Vistas.MenuPrincipal as mp
     mp.main(nivel,id)
 
 

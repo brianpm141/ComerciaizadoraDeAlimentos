@@ -9,7 +9,7 @@ import Clases.Clientes as cli
 
 def menuprincipal(ventana, nivel, id):
     ventana.destroy()
-    import MenuPrincipal as mp
+    import Vistas.MenuPrincipal as mp
     mp.main(nivel, id)
 
 def actualizar_lista(lista_aux, opcion, label):
@@ -27,11 +27,6 @@ def actualizar_lista(lista_aux, opcion, label):
         else:
             for pedido in ped.listaPedidos:
                 lista_aux.insert(tk.END, str(pedido))
-
-
-def mostrar_detalles(event):
-    print("hola mundo")
-
 
 
 def nuevaVenta(id, actualizar_lista_callback):
@@ -495,8 +490,6 @@ def main(nivel, id):
     global lista_registros
     lista_registros = tk.Listbox(frame_derecho, width=100, height=20)
     lista_registros.pack()
-
-    lista_registros.bind('<<ListboxSelect>>', mostrar_detalles)
 
     actualizar_lista(lista_registros, opcion_var.get(), label_mostrando)
     ventana.mainloop()

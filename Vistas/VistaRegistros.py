@@ -5,7 +5,7 @@ from Clases import Registros as reg
 
 def menuprincipal(ventana, nivel, id):
     ventana.destroy()
-    import MenuPrincipal as mp
+    import Vistas.MenuPrincipal as mp
     mp.main(nivel, id)
 
 

@@ -98,7 +98,7 @@ def formulario_productos(id_usuario, actualizar_lista_callback):
 
 def menuprincipal(ventana, nivel,id):
     ventana.destroy()
-    import MenuPrincipal as mp
+    import Vistas.MenuPrincipal as mp
     mp.main(nivel,id)
 
 def actualizar_lista(lista_productos):

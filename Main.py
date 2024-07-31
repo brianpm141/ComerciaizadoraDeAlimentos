@@ -1,4 +1,4 @@
-import Loggin as lg
+from Vistas import Loggin as lg
 
 lg.main()
 
