@@ -1,6 +1,7 @@
 from Clases.Personas import Persona
 import Clases.Registros as reg
 import csv
+from pathlib import Path
 
 
 class Cliente(Persona):
@@ -28,10 +29,10 @@ class Cliente(Persona):
     def setdireccion(self, direccion):
         self.direccion = direccion
 
-    def setstatus(self,status):
+    def setstatus(self, status):
         self.status = status
 
-    def modificarCliente(self,nombre, apaterno, amaterno, telefono, correo, direccion):
+    def modificarCliente(self, nombre, apaterno, amaterno, telefono, correo, direccion):
         self.setnombre(nombre)
         self.setapaterno(apaterno)
         self.setamaterno(amaterno)
@@ -43,17 +44,22 @@ class Cliente(Persona):
 def cargar_desde_csv():
     lista_clien_aux = []
     try:
-        with open('./Archivos/clientes.csv', mode='r') as file:
+        # Obtener la ruta absoluta del archivo CSV subiendo un nivel
+        ruta_archivo = Path(__file__).parent.parent / \
+            'Archivos' / 'clientes.csv'
+
+        with open(ruta_archivo, mode='r') as file:
             reader = csv.reader(file)
             next(reader)
             for row in reader:
                 if row:
-                    id, nombre, apaterno, amaterno, telefono,correo, direccion,status = row
-                    cln = Cliente(id, nombre, apaterno, amaterno, telefono, correo, direccion)
+                    id, nombre, apaterno, amaterno, telefono, correo, direccion, status = row
+                    cln = Cliente(id, nombre, apaterno, amaterno,
+                                  telefono, correo, direccion)
                     cln.setstatus(int(status))
                     lista_clien_aux.append(cln)
     except FileNotFoundError:
-        print(f"El archivo {'./Archivos/clientes.csv'} no se encuentra.")
+        print(f"El archivo {ruta_archivo} no se encuentra.")
     except Exception as e:
         print(f"Se produjo un error al leer el archivo: {e}")
     return lista_clien_aux
@@ -62,23 +68,27 @@ def cargar_desde_csv():
 listaClientes = cargar_desde_csv()
 
 
-def crearCliente(nombre, apaterno, amaterno, telefono, correo, direccion,id_usuario):
+def crearCliente(nombre, apaterno, amaterno, telefono, correo, direccion, id_usuario):
     id = len(listaClientes) + 1
     telefono = int(telefono)
-    clnaux = Cliente(id, nombre, apaterno, amaterno, telefono, correo, direccion)
+    clnaux = Cliente(id, nombre, apaterno, amaterno,
+                     telefono, correo, direccion)
     listaClientes.append(clnaux)
     guardar_en_csv(listaClientes)
     reg.crearRegistro(id_usuario, "Creacion de Cliente", id)
 
 
-def guardar_en_csv(lista_productos):
-    with open('./Archivos/clientes.csv', mode='w', newline='') as file:
+def guardar_en_csv(lista_clientes):
+    # Obtener la ruta absoluta del archivo CSV subiendo un nivel
+    ruta_archivo = Path(__file__).parent.parent / 'Archivos' / 'clientes.csv'
+
+    with open(ruta_archivo, mode='w', newline='') as file:
         writer = csv.writer(file)
-        # Escribir la cabecera del CSV
-        writer.writerow(["id", "nombre", "apaterno", "amaterno", "telefono","correo","direccion","status"])
-        for cliente in listaClientes:
-            writer.writerow([cliente.getid(), cliente.getnombre(),cliente.getapaterno(),cliente.getamaterno(),cliente.gettelefono(),
-                             cliente.getcorreo(),cliente.getdireccion(),cliente.getStatus()])
+        writer.writerow(["id", "nombre", "apaterno", "amaterno",
+                         "telefono", "correo", "direccion", "status"])
+        for cliente in lista_clientes:
+            writer.writerow([cliente.getid(), cliente.getnombre(), cliente.getapaterno(), cliente.getamaterno(), cliente.gettelefono(),
+                             cliente.getcorreo(), cliente.getdireccion(), cliente.getStatus()])
 
 
 def buscarClienteid(num):
@@ -89,10 +99,11 @@ def buscarClienteid(num):
     return False
 
 
-def modificarCliente(id_usu,nombre, apaterno, amaterno, telefono, correo, direccion,id_ses):
+def modificarCliente(id_usu, nombre, apaterno, amaterno, telefono, correo, direccion, id_ses):
     for cln in listaClientes:
         if id_usu == cln.getid():
-            cln.modificarCliente(nombre, apaterno, amaterno, telefono, correo, direccion)
+            cln.modificarCliente(nombre, apaterno, amaterno,
+                                 telefono, correo, direccion)
             guardar_en_csv(listaClientes)
             reg.crearRegistro(id_ses, "Modificar Cliente", id_usu)
 
@@ -107,10 +118,9 @@ def eliminarCliente(id_usuario, id_ses):
                 return None
     return False
 
+
 def is_empty():
     for prod in listaClientes:
-        if prod.getStatus() == 1: return False
+        if prod.getStatus() == 1:
+            return False
     return True
-
-
-

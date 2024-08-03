@@ -75,3 +75,17 @@ ID Registro,Fecha,Hora,ID Usuario,Tipo Movimiento,ID Movimiento
 74,2024-07-30,09:59:27,1,Eliminar Producto,1
 75,2024-07-30,10:04:12,8,Eliminar Usuario,1
 76,2024-07-30,10:05:47,1,Eliminar Usuario,8
+77,2024-07-31,13:08:46,1,Crear Producto,9
+78,2024-07-31,13:32:58,1,Modificar Producto,9
+79,2024-07-31,13:33:14,1,Modificar Producto,9
+80,2024-08-01,12:00:21,1,Eliminar Producto,9
+81,2024-08-02,19:53:19,1,Crear Producto,2
+82,2024-08-02,19:53:45,1,Nueva venta,16
+83,2024-08-02,19:54:06,1,Nuevo Pedido,1
+84,2024-08-02,19:58:08,1,Creacion de usuario,9
+85,2024-08-02,19:58:18,1,Modificar Usuario,9
+86,2024-08-02,19:58:23,1,Eliminar Usuario,9
+87,2024-08-02,20:02:01,1,Creacion de Cliente,1
+88,2024-08-02,20:02:11,1,Modificar Cliente,1
+89,2024-08-02,20:02:26,1,Eliminar Cliente,1
+90,2024-08-02,20:08:05,1,Crear Producto,10

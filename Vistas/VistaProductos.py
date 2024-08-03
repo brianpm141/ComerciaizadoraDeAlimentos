@@ -67,7 +67,7 @@ def formulario_productos(id_usuario, actualizar_lista_callback):
             root.destroy()
 
     root = tk.Toplevel()
-    root.title("Formulario de Productos")
+    root.title("Nuevo Producto")
 
     tk.Label(root, text="Nombre:").grid(row=0, column=0, padx=10, pady=5)
     entry_nombre = tk.Entry(root)
@@ -198,7 +198,7 @@ def modificar_producto(id_usuario,actualizar_lista_wrapper):
         entry_nombre.insert(0, prod.nombre)  # Prellenar con valor predeterminado
 
         tk.Label(root, text="Tipo:").grid(row=1, column=0, padx=10, pady=5)
-        combo_tipo = ttk.Combobox(root, values=["1", "2", "3"])
+        combo_tipo = ttk.Combobox(root, values=["Perros", "Gatos", "Canarios"])
         combo_tipo.grid(row=1, column=1, padx=10, pady=5)
         combo_tipo.set(prod.tipo)  # Prellenar con valor predeterminado
 

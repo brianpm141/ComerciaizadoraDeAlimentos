@@ -7,3 +7,5 @@ ID,Nombre,Tipo,Peso,Precio,Cantidad,enpedido,Status
 6,camalion,1,250,880,50,1,0
 7,test,2,120,320,11,20,0
 8,prueba2,2,10,56,60,0,0
+9,test,2,12,20,12,0,1
+10,test2,2,10,124,21,0,1

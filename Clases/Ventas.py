@@ -15,6 +15,7 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch
 import Clases.Registros as reg
 import Clases.Productos as prod
+from pathlib import Path
 
 
 class Venta:
@@ -83,16 +84,19 @@ class Venta:
 def cargar_desde_csv():
     lista_productos = []
     try:
-        with open('./Archivos/ventas.csv', mode='r') as file:
+        ruta_archivo = Path(__file__).parent.parent / 'Archivos' / 'ventas.csv'
+
+        with open(ruta_archivo, mode='r') as file:
             reader = csv.reader(file)
             next(reader)
             for row in reader:
                 if row:
                     id, fecha, hora, id_usuario, id_producto, cantidad, subtotal, metodo_pago = row
-                    ventaux = Venta(id, fecha, hora, id_usuario, id_producto, cantidad, subtotal, metodo_pago)
+                    ventaux = Venta(id, fecha, hora, id_usuario,
+                                    id_producto, cantidad, subtotal, metodo_pago)
                     lista_productos.append(ventaux)
     except FileNotFoundError:
-        print(f"El archivo {'./Archivos/ventas.csv'} no se encuentra.")
+        print(f"El archivo {ruta_archivo} no se encuentra.")
     except Exception as e:
         print(f"Se produjo un error al leer el archivo: {e}")
     return lista_productos
@@ -102,9 +106,11 @@ listaVentas = cargar_desde_csv()
 
 
 def guardar_en_csv(lista_ventas):
-    with open('./Archivos/ventas.csv', mode='w', newline='') as file:
+    ruta_archivo = Path(__file__).parent.parent / 'Archivos' / 'ventas.csv'
+    with open(ruta_archivo, mode='w', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow(["id", "fecha", "hora", "id_usuario", "id_producto", "cantidad", "subtotal", "metodo_pago"])
+        writer.writerow(["id", "fecha", "hora", "id_usuario",
+                        "id_producto", "cantidad", "subtotal", "metodo_pago"])
         for venta in lista_ventas:
             writer.writerow([venta.getid(), venta.getfecha(), venta.gethora(), venta.getid_usuario(), venta.getid_producto(),
                              venta.getcantidad(), venta.getsubtotal(), venta.getmetodo_pago()])
@@ -126,7 +132,8 @@ def crearVenta(id_ses, id_usuario, id_producto, cantidad, subtotal, metodo_pago)
     id = len(listaVentas) + 1
     fecha = now.strftime("%Y-%m-%d")
     hora = now.strftime("%H:%M:%S")
-    clnaux = Venta(id, fecha, hora, id_usuario, id_producto, cantidad, subtotal, metodo_pago)
+    clnaux = Venta(id, fecha, hora, id_usuario, id_producto,
+                   cantidad, subtotal, metodo_pago)
     listaVentas.append(clnaux)
     guardar_en_csv(listaVentas)
     reg.crearRegistro(id_ses, "Nueva venta", id)
@@ -158,14 +165,16 @@ def generar_pdf(ruta_archivo):
 def generarcsv(ruta):
     with open(ruta, mode='w', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow(["id", "fecha", "id_usuario", "id_producto", "cantidad", "subtotal", "metodo_pago"])
+        writer.writerow(["id", "fecha", "id_usuario",
+                        "id_producto", "cantidad", "subtotal", "metodo_pago"])
         for venta in listaVentas:
             writer.writerow([venta.getid(), venta.getfecha(), venta.getid_usuario(), venta.getid_producto(),
                              venta.getcantidad(), venta.getsubtotal(), venta.getmetodo_pago()])
 
 
 def gengerarexel(ruta):
-    columnas = ["id", "fecha", "hora", "id_usuario", "id_producto", "cantidad", "subtotal", "metodo_pago"]
+    columnas = ["id", "fecha", "hora", "id_usuario",
+                "id_producto", "cantidad", "subtotal", "metodo_pago"]
     datos = [
         [pedido.getid(), pedido.getfecha(), pedido.gethora(), pedido.getid_usuario(), pedido.getid_producto(),
          pedido.getcantidad(), pedido.getsubtotal(), pedido.getmetodo_pago()]
@@ -222,4 +231,3 @@ def generar_grafica_ventas_diarias(pdf_ruta):
 
     # Eliminar el archivo temporal
     os.remove(temp_file_path)
-

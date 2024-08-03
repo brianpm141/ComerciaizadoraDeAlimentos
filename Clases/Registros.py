@@ -3,9 +3,11 @@ import csv
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 import pandas as pd
+from pathlib import Path
+
 
 class Registro:
-    def __init__(self,id_registro,fecha,hora,id_usuario,tipo_mov,id_mov):
+    def __init__(self, id_registro, fecha, hora, id_usuario, tipo_mov, id_mov):
         self.id_registro = int(id_registro)
         self.fecha = fecha
         self.hora = hora
@@ -15,7 +17,6 @@ class Registro:
 
     def __str__(self):
         return f" Id: {self.id_registro} -- Fecha:{self.fecha} -- Id_usuario:{self.id_usuario} -- Movimiento: {self.tipo_mov}  --  Id_item:{self.id_mov} "
-
 
     def getid_registro(self):
         return self.id_registro
@@ -35,64 +36,76 @@ class Registro:
     def getid_mov(self):
         return self.id_mov
 
-    def setid_registro(self,id_registro):
+    def setid_registro(self, id_registro):
         self.id_registro = id_registro
 
-    def sethora(self,hora):
+    def sethora(self, hora):
         self.hora = hora
 
-    def setid_usuario(self,id_usuario):
+    def setid_usuario(self, id_usuario):
         self.id_usuario = int(id_usuario)
 
-    def setitimomov(self,tipomov):
+    def setitimomov(self, tipomov):
         self.tipomov = int(tipomov)
 
-    def setid_mov(self,id_mov):
+    def setid_mov(self, id_mov):
         self.id_mov = int(id_mov)
 
 
 def cargar_registros_desde_csv():
     lista_aux = []
     try:
-        with open('./Archivos/registros.csv', mode='r') as file:
+        # Obtener la ruta absoluta del archivo CSV subiendo un nivel
+        ruta_archivo = Path(__file__).parent.parent / \
+            'Archivos' / 'registros.csv'
+
+        with open(ruta_archivo, mode='r') as file:
             reader = csv.reader(file)
             next(reader)
             for row in reader:
                 if row:
                     id_registro, fecha, hora, id_usuario, tipo_mov, id_mov = row
-                    registro = Registro(id_registro, fecha, hora, id_usuario, tipo_mov, id_mov)
+                    registro = Registro(id_registro, fecha,
+                                        hora, id_usuario, tipo_mov, id_mov)
                     lista_aux.append(registro)
     except FileNotFoundError:
-        print(f"El archivo {'./Archivos/registros.csv'} no se encuentra.")
+        print(f"El archivo {ruta_archivo} no se encuentra.")
     except Exception as e:
         print(f"Se produjo un error al leer el archivo: {e}")
     return lista_aux
 
+
 lista_registros = cargar_registros_desde_csv()
+
 
 def is_empty():
     if not lista_registros:
         return True
-    else: return False
+    else:
+        return False
 
 
-def crearRegistro(id_usuario,tipo_mov,id_mov):
+def crearRegistro(id_usuario, tipo_mov, id_mov):
     id = len(lista_registros) + 1
     ahora = datetime.now()
     fecha = ahora.strftime('%Y-%m-%d')
     hora = ahora.strftime('%H:%M:%S')
 
-    regaux = Registro(id, fecha,hora,id_usuario,tipo_mov,id_mov)
+    regaux = Registro(id, fecha, hora, id_usuario, tipo_mov, id_mov)
     lista_registros.append(regaux)
     guardar_registros_en_csv()
 
 
 def guardar_registros_en_csv():
-    with open('./Archivos/registros.csv', mode='w', newline='') as file:
+    ruta_archivo = Path(__file__).parent.parent / 'Archivos' / 'registros.csv'
+    with open(ruta_archivo, mode='w', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow(["ID Registro", "Fecha", "Hora", "ID Usuario", "Tipo Movimiento", "ID Movimiento"])
+        writer.writerow(["ID Registro", "Fecha", "Hora",
+                        "ID Usuario", "Tipo Movimiento", "ID Movimiento"])
         for registro in lista_registros:
-            writer.writerow([registro.id_registro, registro.fecha, registro.hora, registro.id_usuario, registro.tipo_mov, registro.id_mov])
+            writer.writerow([registro.id_registro, registro.fecha, registro.hora,
+                            registro.id_usuario, registro.tipo_mov, registro.id_mov])
+
 
 def generar_pdf(ruta_archivo):
     c = canvas.Canvas(ruta_archivo, pagesize=letter)
@@ -113,25 +126,24 @@ def generar_pdf(ruta_archivo):
             c.setFont("Helvetica", 12)
     c.save()
 
+
 def generarcsv(ruta):
     with open(ruta, mode='w', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow(["ID Registro", "Fecha", "ID Usuario", "Tipo Movimiento", "ID Movimiento"])
+        writer.writerow(["ID Registro", "Fecha", "ID Usuario",
+                        "Tipo Movimiento", "ID Movimiento"])
         for registro in lista_registros:
-            writer.writerow([registro.id_registro, registro.fecha, registro.id_usuario, registro.tipo_mov, registro.id_mov])
+            writer.writerow([registro.id_registro, registro.fecha,
+                            registro.id_usuario, registro.tipo_mov, registro.id_mov])
 
 
 def generarexel(ruta):
-    # Definir las columnas del DataFrame
-    columnas = ["ID Registro", "Fecha", "ID Usuario", "Tipo Movimiento", "ID Movimiento"]
-
-    # Extraer los datos de los objetos Pedido
+    columnas = ["ID Registro", "Fecha", "ID Usuario",
+                "Tipo Movimiento", "ID Movimiento"]
     datos = [
-        [registro.id_registro, registro.fecha, registro.id_usuario, registro.tipo_mov, registro.id_mov]
+        [registro.id_registro, registro.fecha, registro.id_usuario,
+            registro.tipo_mov, registro.id_mov]
         for registro in lista_registros
     ]
-    # Crear un DataFrame a partir de la lista de datos
     df = pd.DataFrame(datos, columns=columnas)
-
-    # Guardar el DataFrame en un archivo Excel
     df.to_excel(ruta, index=False, engine='openpyxl')

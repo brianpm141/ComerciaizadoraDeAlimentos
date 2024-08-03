@@ -4,6 +4,7 @@ from tkinter import ttk
 from tkinter import simpledialog
 from Clases import Usuarios as usu  # Asegúrate de importar la clase adecuada
 
+
 def crearUsuario(id_usuario, actualizar_lista_callback):
     niveles = {
         "Vendedor": 1,
@@ -34,22 +35,29 @@ def crearUsuario(id_usuario, actualizar_lista_callback):
         if not nombre or not apaterno or not amaterno or not telefono or not usuario or not psw or not nivel:
             messagebox.showerror("Error", "¡Introduce todos los campos!")
         elif len(nombre) > 24:
-            messagebox.showerror("Error", "¡El nombre no puede tener más de 24 caracteres!")
+            messagebox.showerror(
+                "Error", "¡El nombre no puede tener más de 24 caracteres!")
         elif len(apaterno) > 24:
-            messagebox.showerror("Error", "¡El apellido paterno no puede tener más de 24 caracteres!")
+            messagebox.showerror(
+                "Error", "¡El apellido paterno no puede tener más de 24 caracteres!")
         elif len(amaterno) > 24:
-            messagebox.showerror("Error", "¡El apellido materno no puede tener más de 24 caracteres!")
+            messagebox.showerror(
+                "Error", "¡El apellido materno no puede tener más de 24 caracteres!")
         elif not es_entero(telefono) or len(telefono) != 10:
-            messagebox.showerror("Error", "¡Introduce un número de teléfono válido de 10 dígitos!")
+            messagebox.showerror(
+                "Error", "¡Introduce un número de teléfono válido de 10 dígitos!")
         elif len(usuario) < 8 or len(usuario) > 16:
-            messagebox.showerror("Error", "¡El usuario debe tener entre 8 y 16 caracteres!")
+            messagebox.showerror(
+                "Error", "¡El usuario debe tener entre 8 y 16 caracteres!")
         elif len(psw) < 8 or len(psw) > 16:
-            messagebox.showerror("Error", "¡La contraseña debe tener entre 8 y 16 caracteres!")
+            messagebox.showerror(
+                "Error", "¡La contraseña debe tener entre 8 y 16 caracteres!")
         elif nivel not in niveles:
             messagebox.showerror("Error", "¡Seleccione un nivel válido!")
         else:
             nivel_codigo = niveles[nivel]
-            usu.crearUsuario(id_usuario, nombre, apaterno, amaterno, telefono, usuario, psw, nivel_codigo)
+            usu.crearUsuario(id_usuario, nombre, apaterno,
+                             amaterno, telefono, usuario, psw, nivel_codigo)
             actualizar_lista_callback()
             root.destroy()
 
@@ -60,11 +68,13 @@ def crearUsuario(id_usuario, actualizar_lista_callback):
     entry_nombre = tk.Entry(root)
     entry_nombre.grid(row=0, column=1, padx=10, pady=5)
 
-    tk.Label(root, text="Apellido Paterno:").grid(row=1, column=0, padx=10, pady=5)
+    tk.Label(root, text="Apellido Paterno:").grid(
+        row=1, column=0, padx=10, pady=5)
     entry_apaterno = tk.Entry(root)
     entry_apaterno.grid(row=1, column=1, padx=10, pady=5)
 
-    tk.Label(root, text="Apellido Materno:").grid(row=2, column=0, padx=10, pady=5)
+    tk.Label(root, text="Apellido Materno:").grid(
+        row=2, column=0, padx=10, pady=5)
     entry_amaterno = tk.Entry(root)
     entry_amaterno.grid(row=2, column=1, padx=10, pady=5)
 
@@ -90,15 +100,18 @@ def crearUsuario(id_usuario, actualizar_lista_callback):
     btn_salir = tk.Button(root, text="Cancelar", command=salir)
     btn_salir.grid(row=7, column=1, padx=10, pady=10)
 
+
 def editarUsuario(id, actualizar_lista_callback):
     root = tk.Tk()
     root.withdraw()  # Ocultar la ventana principal
 
     while True:
-        numero = simpledialog.askinteger("Entrada", "Ingrese el ID del usuario a modificar:")
+        numero = simpledialog.askinteger(
+            "Entrada", "Ingrese el ID del usuario a modificar:")
         if numero is None:
             break
-        elif not usu.buscarUsuarioid(numero):  # Aquí puedes agregar cualquier condición de validación que necesites
+        # Aquí puedes agregar cualquier condición de validación que necesites
+        elif not usu.buscarUsuarioid(numero):
             messagebox.showerror("Error", "El usuario buscado no existe.")
         else:
             dato = usu.buscarUsuarioid(numero)
@@ -145,62 +158,79 @@ def editarUsuario(id, actualizar_lista_callback):
 
                 # Validaciones
                 if not nombre or not apaterno or not amaterno or not telefono or not usuario or not psw or not nivel:
-                    messagebox.showerror("Error", "¡Introduce todos los campos!")
+                    messagebox.showerror(
+                        "Error", "¡Introduce todos los campos!")
                 elif len(nombre) > 24:
-                    messagebox.showerror("Error", "¡El nombre no puede tener más de 24 caracteres!")
+                    messagebox.showerror(
+                        "Error", "¡El nombre no puede tener más de 24 caracteres!")
                 elif len(apaterno) > 24:
-                    messagebox.showerror("Error", "¡El apellido paterno no puede tener más de 24 caracteres!")
+                    messagebox.showerror(
+                        "Error", "¡El apellido paterno no puede tener más de 24 caracteres!")
                 elif len(amaterno) > 24:
-                    messagebox.showerror("Error", "¡El apellido materno no puede tener más de 24 caracteres!")
+                    messagebox.showerror(
+                        "Error", "¡El apellido materno no puede tener más de 24 caracteres!")
                 elif not es_entero(telefono) or len(telefono) != 10:
-                    messagebox.showerror("Error", "¡Introduce un número de teléfono válido de 10 dígitos!")
+                    messagebox.showerror(
+                        "Error", "¡Introduce un número de teléfono válido de 10 dígitos!")
                 elif len(usuario) < 8 or len(usuario) > 16:
-                    messagebox.showerror("Error", "¡El usuario debe tener entre 8 y 16 caracteres!")
+                    messagebox.showerror(
+                        "Error", "¡El usuario debe tener entre 8 y 16 caracteres!")
                 elif len(psw) < 8 or len(psw) > 16:
-                    messagebox.showerror("Error", "¡La contraseña debe tener entre 8 y 16 caracteres!")
+                    messagebox.showerror(
+                        "Error", "¡La contraseña debe tener entre 8 y 16 caracteres!")
                 elif nivel not in niveles:
-                    messagebox.showerror("Error", "¡Seleccione un nivel válido!")
+                    messagebox.showerror(
+                        "Error", "¡Seleccione un nivel válido!")
                 else:
                     nivel_codigo = niveles[nivel]
-                    usu.modificarUsuario(id_mod, nombre, apaterno, amaterno, telefono, usuario, psw, nivel_codigo, id)
-                    messagebox.showinfo("Éxito", "Usuario modificado exitosamente.")
+                    usu.modificarUsuario(
+                        id_mod, nombre, apaterno, amaterno, telefono, usuario, psw, nivel_codigo, id)
+                    messagebox.showinfo(
+                        "Éxito", "Usuario modificado exitosamente.")
                     root2.destroy()
                     actualizar_lista_callback()
 
             root2 = tk.Toplevel()
             root2.title("Modificar Usuario")
 
-            tk.Label(root2, text="Nombre:").grid(row=0, column=0, padx=10, pady=5)
+            tk.Label(root2, text="Nombre:").grid(
+                row=0, column=0, padx=10, pady=5)
             entry_nombre = tk.Entry(root2)
             entry_nombre.grid(row=0, column=1, padx=10, pady=5)
             entry_nombre.insert(0, nombre)
 
-            tk.Label(root2, text="Apellido Paterno:").grid(row=1, column=0, padx=10, pady=5)
+            tk.Label(root2, text="Apellido Paterno:").grid(
+                row=1, column=0, padx=10, pady=5)
             entry_apaterno = tk.Entry(root2)
             entry_apaterno.grid(row=1, column=1, padx=10, pady=5)
             entry_apaterno.insert(0, apaterno)
 
-            tk.Label(root2, text="Apellido Materno:").grid(row=2, column=0, padx=10, pady=5)
+            tk.Label(root2, text="Apellido Materno:").grid(
+                row=2, column=0, padx=10, pady=5)
             entry_apmaterno = tk.Entry(root2)
             entry_apmaterno.grid(row=2, column=1, padx=10, pady=5)
             entry_apmaterno.insert(0, amaterno)
 
-            tk.Label(root2, text="Teléfono:").grid(row=3, column=0, padx=10, pady=5)
+            tk.Label(root2, text="Teléfono:").grid(
+                row=3, column=0, padx=10, pady=5)
             entry_telefono = tk.Entry(root2)
             entry_telefono.grid(row=3, column=1, padx=10, pady=5)
             entry_telefono.insert(0, telefono)
 
-            tk.Label(root2, text="Usuario:").grid(row=4, column=0, padx=10, pady=5)
+            tk.Label(root2, text="Usuario:").grid(
+                row=4, column=0, padx=10, pady=5)
             entry_usuario = tk.Entry(root2)
             entry_usuario.grid(row=4, column=1, padx=10, pady=5)
             entry_usuario.insert(0, usuario)
 
-            tk.Label(root2, text="Contraseña:").grid(row=5, column=0, padx=10, pady=5)
+            tk.Label(root2, text="Contraseña:").grid(
+                row=5, column=0, padx=10, pady=5)
             entry_psw = tk.Entry(root2, show="*")
             entry_psw.grid(row=5, column=1, padx=10, pady=5)
             entry_psw.insert(0, psw)
 
-            tk.Label(root2, text="Nivel:").grid(row=6, column=0, padx=10, pady=5)
+            tk.Label(root2, text="Nivel:").grid(
+                row=6, column=0, padx=10, pady=5)
             combo_nivel = ttk.Combobox(root2, values=list(niveles.keys()))
             combo_nivel.grid(row=6, column=1, padx=10, pady=5)
             combo_nivel.set(nivel)
@@ -220,10 +250,15 @@ def eliminarUsuario(id, actualizar_lista_wrapper):
     root.withdraw()  # Ocultar la ventana principal
 
     while True:
-        numero = simpledialog.askinteger("Entrada", "Ingrese el ID del usuario a eliminar:")
+        numero = simpledialog.askinteger(
+            "Entrada", "Ingrese el ID del usuario a eliminar:")
         if numero is None:
             break
-        elif usu.buscarUsuarioid(numero) == None:  # Aquí puedes agregar cualquier condición de validación que necesites
+        elif numero == 1:
+            messagebox.showwarning(
+                "Advertencia", "El usuario administrador no se puede eliminar")
+            break
+        elif usu.buscarUsuarioid(numero) == None:
             messagebox.showerror("Error", "El usuario buscado no existe.")
         else:
             usu.eliminarUsuario(numero, id)
@@ -260,15 +295,15 @@ def main(nivel, id):
     frame_izquierdo.pack(side=tk.LEFT, padx=10, pady=10)
 
     boton_crear_usuario = tk.Button(frame_izquierdo, text="Crear Usuario",
-                                     command=lambda: crearUsuario(id, actualizar_lista_wrapper))
+                                    command=lambda: crearUsuario(id, actualizar_lista_wrapper))
     boton_crear_usuario.pack(pady=5)
 
     boton_editar_usuario = tk.Button(frame_izquierdo, text="Editar Usuario",
-                                    command=lambda: editarUsuario(id, actualizar_lista_wrapper))
+                                     command=lambda: editarUsuario(id, actualizar_lista_wrapper))
     boton_editar_usuario.pack(pady=5)
 
     boton_eliminar = tk.Button(frame_izquierdo, text="Eliminar Usuario",
-                                     command=lambda: eliminarUsuario(id, actualizar_lista_wrapper))
+                               command=lambda: eliminarUsuario(id, actualizar_lista_wrapper))
     boton_eliminar.pack(pady=5)
 
     boton_menu_principal = tk.Button(frame_izquierdo, text="Regresar al Menú Principal",

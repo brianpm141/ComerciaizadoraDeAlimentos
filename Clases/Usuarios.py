@@ -1,9 +1,11 @@
 from Clases.Personas import Persona
 import Clases.Registros as reg
 import csv
+from pathlib import Path
+
 
 class Usuario(Persona):
-    def __init__(self,id, nombre, apaterno, amaterno, telefono, usuario, psw, nivel):
+    def __init__(self, id, nombre, apaterno, amaterno, telefono, usuario, psw, nivel):
         self.usuario = usuario
         self.psw = psw
         self.nivel = int(nivel)
@@ -22,23 +24,22 @@ class Usuario(Persona):
     def getstatus(self):
         return self.status
 
-    def setusuario(self,usuario):
+    def setusuario(self, usuario):
         self.usuario = usuario
 
-    def setpsw(self,psw):
+    def setpsw(self, psw):
         self.psw = psw
 
-    def setnivel(self,nivel):
+    def setnivel(self, nivel):
         self.nivel = nivel
 
-    def setstatus(self,val):
+    def setstatus(self, val):
         self.status = val
 
     def __str__(self):
         return f" ID: {self.id}  -  Usuario: {self.usuario} -- Nivel:{self.nivel}"
 
-
-    def modificarUsuario(self,nombre, apaterno, amaterno, telefono, usuario, psw, nivel):
+    def modificarUsuario(self, nombre, apaterno, amaterno, telefono, usuario, psw, nivel):
         self.setnombre(nombre)
         self.setapaterno(apaterno)
         self.setamaterno(amaterno)
@@ -48,22 +49,25 @@ class Usuario(Persona):
         self.setnivel(nivel)
 
 
-
-
 def cargar_desde_csv():
     lista_productos = []
     try:
-        with open('./Archivos/usuarios.csv', mode='r') as file:
+        # Obtener la ruta absoluta del archivo CSV subiendo un nivel
+        ruta_archivo = Path(__file__).parent.parent / \
+            'Archivos' / 'usuarios.csv'
+
+        with open(ruta_archivo, mode='r') as file:
             reader = csv.reader(file)
             next(reader)
             for row in reader:
                 if row:
-                    id, nombre, apaterno, amaterno, telefono, usuario, psw, nivel,status = row
-                    usuario = Usuario(id, nombre, apaterno, amaterno, telefono, usuario, psw, nivel)
+                    id, nombre, apaterno, amaterno, telefono, usuario, psw, nivel, status = row
+                    usuario = Usuario(id, nombre, apaterno,
+                                      amaterno, telefono, usuario, psw, nivel)
                     usuario.setstatus(int(status))
                     lista_productos.append(usuario)
     except FileNotFoundError:
-        print(f"El archivo {'./Archivos/usuarios.csv'} no se encuentra.")
+        print(f"El archivo {ruta_archivo} no se encuentra.")
     except Exception as e:
         print(f"Se produjo un error al leer el archivo: {e}")
     return lista_productos
@@ -71,10 +75,11 @@ def cargar_desde_csv():
 
 listaUsuaros = cargar_desde_csv()
 
+
 def buscarUsuario(usuario):
     for usr in listaUsuaros:
         if usuario == usr.getusuario():
-            return (usr.getpsw(), usr.getnivel(),usr.getid())
+            return (usr.getpsw(), usr.getnivel(), usr.getid())
     return None, None, None
 
 
@@ -96,11 +101,12 @@ def getnombre_usuario(valor):
 
 def is_empty():
     for prod in listaUsuaros:
-        if prod.getstatus() == 1: return False
+        if prod.getstatus() == 1:
+            return False
     return True
 
 
-def crearUsuario(id_usuario,nombre, apaterno, amaterno, telefono, usuario, psw, nivel):
+def crearUsuario(id_usuario, nombre, apaterno, amaterno, telefono, usuario, psw, nivel):
     id = len(listaUsuaros) + 1
     if nivel == "Administrador":
         nivel = 3
@@ -109,22 +115,26 @@ def crearUsuario(id_usuario,nombre, apaterno, amaterno, telefono, usuario, psw, 
     else:
         nivel = 1
     telefono = int(telefono)
-    usuaux = Usuario(id, nombre, apaterno, amaterno, telefono, usuario, psw, nivel)
+    usuaux = Usuario(id, nombre, apaterno, amaterno,
+                     telefono, usuario, psw, nivel)
     listaUsuaros.append(usuaux)
     guardar_en_csv(listaUsuaros)
-    reg.crearRegistro(id_usuario,"Creacion de usuario",id)
+    reg.crearRegistro(id_usuario, "Creacion de usuario", id)
 
 
 def guardar_en_csv(lista_productos):
-    with open('./Archivos/usuarios.csv', mode='w', newline='') as file:
+    ruta_archivo = Path(__file__).parent.parent / 'Archivos' / 'usuarios.csv'
+    with open(ruta_archivo, mode='w', newline='') as file:
         writer = csv.writer(file)
         # Escribir la cabecera del CSV
-        writer.writerow(["id", "nombre", "apaterno", "amaterno", "telefono", "usuario", "psw", "nivel","status"])
-        for usuario in listaUsuaros:
-            writer.writerow([usuario.getid(), usuario.getnombre(),usuario.getapaterno(),usuario.getamaterno(),usuario.gettelefono(),
-                             usuario.getusuario(),usuario.getpsw(),usuario.getnivel(),usuario.getstatus()])
+        writer.writerow(["id", "nombre", "apaterno", "amaterno",
+                         "telefono", "usuario", "psw", "nivel", "status"])
+        for usuario in lista_productos:
+            writer.writerow([usuario.getid(), usuario.getnombre(), usuario.getapaterno(), usuario.getamaterno(), usuario.gettelefono(),
+                             usuario.getusuario(), usuario.getpsw(), usuario.getnivel(), usuario.getstatus()])
 
-def modificarUsuario(id_usu,nombre, apaterno, amaterno, telefono, usuario, psw, nivel,id_ses):
+
+def modificarUsuario(id_usu, nombre, apaterno, amaterno, telefono, usuario, psw, nivel, id_ses):
     if nivel == "Administrador":
         nivel = 3
     elif nivel == "Gerente":
@@ -134,9 +144,11 @@ def modificarUsuario(id_usu,nombre, apaterno, amaterno, telefono, usuario, psw, 
 
     for usr in listaUsuaros:
         if id_usu == usr.getid():
-            usr.modificarUsuario(nombre, apaterno, amaterno, telefono, usuario, psw, nivel)
+            usr.modificarUsuario(nombre, apaterno, amaterno,
+                                 telefono, usuario, psw, nivel)
             guardar_en_csv(listaUsuaros)
             reg.crearRegistro(id_ses, "Modificar Usuario", id_usu)
+
 
 def eliminarUsuario(id_usuario, id_ses):
     for product in listaUsuaros:
@@ -149,8 +161,3 @@ def eliminarUsuario(id_usuario, id_ses):
                 return False
             return True
     return False
-
-
-
-
-
