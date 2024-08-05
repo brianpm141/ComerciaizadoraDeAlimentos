@@ -1,2 +1,5 @@
 id,nombre,apaterno,amaterno,telefono,correo,direccion,status
 1,clitest,torres,carlo,1234567890,caro@test.com,aqui no es,0
+2,test,test,test,1234567890,fawda@dawd.cxpm,aqui,1
+3,nombre,apellido,apellidomat,1236547890,elcorreo@test.com,direccion del cliente,1
+4,dawdasdas,wdawdwad,awdawda,1234567890,adawdw@adawwd.com,awdasdasdaw,0
